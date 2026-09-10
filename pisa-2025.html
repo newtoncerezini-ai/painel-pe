@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PISA 2025 — Pernambuco em Perspectiva</title>
+<script>
+const PISA={"hist":{"Leitura":{"2000":[500,396],"2003":[497,403],"2006":[495,393],"2009":[499,412],"2012":[501,407],"2015":[497,407],"2018":[493,413],"2022":[482,410],"2025":[466,408]},"Matemática":{"2003":[502,356],"2006":[501,370],"2009":[502,386],"2012":[499,389],"2015":[496,377],"2018":[496,384],"2022":[480,379],"2025":[469,377]},"Ciências":{"2006":[503,390],"2009":[506,405],"2012":[505,402],"2015":[497,401],"2018":[493,404],"2022":[491,403],"2025":[486,409]}},"paises":{"Catar":[418,416,434],"Quirguistão":[344,364,363],"Montenegro":[418,411,435],"Turquia":[472,462,494],"Azerbaijão":[374,422,409],"Romênia":[413,419,425],"Brasil":[408,377,409],"Argentina":[389,367,393],"Sérvia":[415,417,429],"Colômbia":[399,381,414],"Taiwan":[508,546,540],"Uruguai":[423,405,445],"Macau (China)":[501,549,541],"Itália":[474,468,483],"Japão":[503,525,538],"Reino Unido":[494,488,511],"Estônia":[499,508,527],"México":[408,388,414],"Israel":[436,433,442],"Lituânia":[464,470,488],"Chile":[436,403,442],"Espanha":[451,457,477],"Portugal":[462,460,482],"Tchéquia":[468,477,490],"Bulgária":[387,405,421],"Irlanda":[500,480,500],"Eslováquia":[448,469,475],"Austrália":[491,478,509],"Áustria":[467,477,497],"Nova Zelândia":[497,480,509],"Croácia":[453,455,476],"Tailândia":[392,407,432],"Polônia":[482,484,495],"Indonésia":[365,364,389],"Suíça":[470,499,501],"Alemanha":[465,464,486],"Hungria":[452,459,480],"França":[456,458,483],"Noruega":[453,452,470],"Dinamarca":[460,471,478],"Bélgica":[466,480,490],"Luxemburgo":[443,458,474],"Grécia":[423,424,434],"Canadá":[490,485,510],"Suécia":[466,464,485],"Letônia":[430,460,468],"Eslovênia":[445,460,484],"Coreia":[501,522,526],"Hong Kong (China)":[480,522,496],"Islândia":[422,450,441],"Países Baixos":[441,483,485],"Finlândia":[474,469,504],"EUA":[494,463,502],"Peru":[390,382,406],"Equador":[385,366,393],"El Salvador":[366,346,385],"Costa Rica":[null,null,null],"Paraguai":[null,null,null],"Rep. Dominicana":[null,null,null],"Guatemala":[null,null,null],"Panamá":[null,null,null]},"oecd":["Austrália","Áustria","Bélgica","Canadá","Coreia","Croácia","Dinamarca","Eslováquia","Eslovênia","Espanha","Estônia","EUA","Finlândia","França","Grécia","Hong Kong (China)","Hungria","Irlanda","Islândia","Israel","Itália","Japão","Letônia","Lituânia","Luxemburgo","México","Noruega","Nova Zelândia","Países Baixos","Polônia","Portugal","Reino Unido","Suécia","Suíça","Tchéquia","Turquia"],"estados":{"Acre":[391.7,359.5,391.4,385.8],"Alagoas":[362.6,332.9,356.3,346.8],"Amapá":[369.5,338.8,363.1,341.5],"Amazonas":[374.5,342.7,368.5,363.1],"Bahia":[367.8,340.8,365.3,358.0],"Ceará":[394.5,363.3,393.5,385.1],"Distrito Federal":[428.8,394.4,426.9,436.0],"Espírito Santo":[419.0,383.8,417.4,418.8],"Goiás":[410.5,380.3,412.5,419.0],"Maranhão":[367.7,342.2,364.1,342.3],"Mato Grosso":[376.2,349.3,375.8,370.3],"Mato Grosso do Sul":[406.6,373.7,403.3,389.6],"Minas Gerais":[430.7,395.7,430.1,425.3],"Pará":[386.8,356.2,384.8,377.0],"Paraíba":[381.0,348.6,378.4,378.8],"Paraná":[458.0,423.1,461.6,467.4],"Pernambuco":[380.6,352.2,379.8,374.2],"Piauí":[385.7,357.9,385.6,382.9],"Rio de Janeiro":[402.6,371.3,398.1,394.6],"Rio Grande do Norte":[400.3,366.5,397.9,394.8],"Rio Grande do Sul":[413.5,378.0,411.4,406.5],"Rondônia":[389.5,360.0,390.9,387.7],"Roraima":[363.8,338.7,362.5,362.6],"Santa Catarina":[431.7,395.0,430.6,426.5],"São Paulo":[433.7,403.8,442.6,446.0],"Sergipe":[380.9,351.0,380.5,376.0],"Tocantins":[362.8,340.9,366.0,359.7]},"estados_se":{"Acre":[9.82,9.14,10.37,10.03],"Alagoas":[9.35,7.9,9.08,9.66],"Amapá":[5.2,3.77,4.39,5.4],"Amazonas":[6.18,5.12,6.07,7.98],"Bahia":[7.77,6.39,6.99,8.25],"Ceará":[9.53,7.75,8.88,9.89],"Distrito Federal":[6.5,5.72,6.56,5.89],"Espírito Santo":[8.4,6.92,8.11,7.76],"Goiás":[7.22,6.57,6.94,6.86],"Maranhão":[11.67,9.54,10.98,10.37],"Mato Grosso":[6.48,5.45,6.25,7.34],"Mato Grosso do Sul":[8.52,7.65,8.24,9.39],"Minas Gerais":[7.49,6.27,6.95,7.05],"Pará":[6.0,5.41,5.85,6.57],"Paraíba":[6.39,5.01,6.08,6.73],"Paraná":[7.04,6.51,7.41,6.28],"Pernambuco":[8.3,6.97,7.98,8.5],"Piauí":[8.59,6.9,7.74,7.64],"Rio de Janeiro":[11.72,10.78,11.92,11.91],"Rio Grande do Norte":[6.95,5.8,6.52,7.53],"Rio Grande do Sul":[8.09,7.1,7.85,8.72],"Rondônia":[8.4,7.14,8.35,9.74],"Roraima":[6.76,5.34,6.35,7.3],"Santa Catarina":[5.85,5.16,5.68,6.83],"São Paulo":[6.08,4.98,5.56,5.0],"Sergipe":[7.43,5.63,6.47,7.92],"Tocantins":[6.98,5.63,6.81,8.08]},"estados_2015":{"Acre":[407.0,377.0,399.0],"Alagoas":[362.0,339.0,360.0],"Amapá":[385.0,354.0,381.0],"Amazonas":[407.0,378.0,399.0],"Bahia":[372.0,343.0,368.0],"Ceará":[409.0,382.0,401.0],"Distrito Federal":[430.0,396.0,426.0],"Espírito Santo":[441.0,405.0,435.0],"Goiás":[416.0,380.0,409.0],"Maranhão":[377.0,343.0,369.0],"Mato Grosso":[402.0,373.0,396.0],"Mato Grosso do Sul":[411.0,377.0,403.0],"Minas Gerais":[431.0,398.0,422.0],"Pará":[395.0,363.0,386.0],"Paraíba":[385.0,357.0,380.0],"Paraná":[433.0,406.0,425.0],"Pernambuco":[394.0,360.0,383.0],"Piauí":[381.0,355.0,380.0],"Rio de Janeiro":[400.0,366.0,392.0],"Rio Grande do Norte":[384.0,353.0,377.0],"Rio Grande do Sul":[410.0,385.0,411.0],"Rondônia":[393.0,364.0,387.0],"Roraima":[403.0,373.0,398.0],"Santa Catarina":[419.0,398.0,418.0],"São Paulo":[417.0,386.0,409.0],"Sergipe":[379.0,354.0,375.0],"Tocantins":[376.0,350.0,372.0]},"estados_2015_se":{"Acre":[10.2,10.2,9.3],"Alagoas":[12.0,12.2,10.9],"Amapá":[8.5,7.8,8.0],"Amazonas":[12.1,9.5,8.5],"Bahia":[8.4,8.9,6.9],"Ceará":[12.6,12.5,11.3],"Distrito Federal":[7.5,6.8,5.6],"Espírito Santo":[6.3,7.5,6.6],"Goiás":[11.1,11.4,9.2],"Maranhão":[15.4,14.4,13.5],"Mato Grosso":[5.8,5.9,5.4],"Mato Grosso do Sul":[8.0,7.4,7.6],"Minas Gerais":[12.0,12.3,11.8],"Pará":[19.9,16.4,15.5],"Paraíba":[10.0,8.7,9.2],"Paraná":[10.8,11.9,10.4],"Pernambuco":[9.3,10.1,7.7],"Piauí":[12.7,11.2,11.5],"Rio de Janeiro":[8.5,8.0,7.0],"Rio Grande do Norte":[7.6,7.3,6.7],"Rio Grande do Sul":[11.3,10.8,9.8],"Rondônia":[10.6,8.9,9.7],"Roraima":[10.7,10.0,9.2],"Santa Catarina":[9.3,7.7,6.1],"São Paulo":[6.3,5.6,5.1],"Sergipe":[10.0,9.6,9.4],"Tocantins":[5.1,4.6,4.6]},"nordeste":["Maranhão","Piauí","Ceará","Rio Grande do Norte","Pernambuco","Paraíba","Sergipe","Alagoas","Bahia"],"regioes_br":{"Norte":["Acre","Amapá","Amazonas","Pará","Rondônia","Roraima","Tocantins"],"Nordeste":["Maranhão","Piauí","Ceará","Rio Grande do Norte","Pernambuco","Paraíba","Sergipe","Alagoas","Bahia"],"Centro-Oeste":["Distrito Federal","Goiás","Mato Grosso","Mato Grosso do Sul"],"Sudeste":["Espírito Santo","Minas Gerais","Rio de Janeiro","São Paulo"],"Sul":["Paraná","Rio Grande do Sul","Santa Catarina"]},"areas":["Leitura","Matemática","Ciências","RPFC"],"brasil":[408,377,409],"brasil_rpfc":406,"ocde_av23":[466,469,486],"fonte_estados":"OCDE, PISA 2025 Results Vol. I, Annex B2 (Table I.B2.1-B2.4)","fonte_estados_2015":"INEP, Brasil no Pisa 2015 (Figs. 3.63, 4.33, 5.35)"};
+
+</script>
+<style>
+:root{--bg:#0b1220;--panel:#111b2e;--panel2:#0e1626;--line:#1e2c45;--tx:#e8eef7;--mut:#8ea0b9;
+--acc:#f5b942;--br:#2ea86e;--pe:#e05252;--ne:#4f8ef7;--lat:#9b59d0;--oc:#8ea0b9}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif;min-height:100vh}
+header{background:var(--panel);border-bottom:1px solid var(--line);padding:18px 22px 14px}
+header h1{font-size:20px;font-weight:800}
+header h1 span{color:var(--acc)}
+header p{font-size:12px;color:var(--mut);margin-top:4px}
+nav{display:flex;gap:8px;padding:12px 22px;background:var(--panel2);border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;top:0;z-index:50}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--mut);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+nav button.on{background:var(--acc);color:#0b1220;border-color:var(--acc)}
+main{max-width:1080px;margin:0 auto;padding:20px 22px 60px}
+section{display:none}
+section.on{display:block}
+h2{font-size:17px;margin:10px 0 14px;font-weight:700}
+h2 small{color:var(--mut);font-weight:400;font-size:12px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{font-size:13.5px;margin-bottom:10px;color:var(--tx)}
+.card h3 b{color:var(--acc)}
+.big{font-size:34px;font-weight:800;line-height:1.1}
+.big.br{color:var(--br)} .big.pe{color:var(--pe)} .big.oc{color:var(--mut)}
+.dif{font-size:13px;margin-top:4px;color:var(--mut)}
+.dif b{font-weight:700}
+.dif .up{color:#3ecf8e} .dif .down{color:#e05252}
+.bar{height:10px;border-radius:6px;background:var(--panel2);overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;border-radius:6px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px}
+th{color:var(--mut);text-transform:uppercase;font-size:10.5px;letter-spacing:.04em;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+th .se{font-size:9px;display:block;color:#566;font-weight:400}
+td{padding:7px 8px;border-bottom:1px solid rgba(30,44,69,.45)}
+tr.hl td{background:rgba(245,185,66,.08);font-weight:600}
+tr.me td{background:rgba(224,82,82,.10);font-weight:700}
+tr.ne td{background:rgba(79,142,247,.08)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.leg{display:flex;gap:14px;flex-wrap:wrap;margin:10px 0;font-size:12px;color:var(--mut)}
+.leg span{display:inline-flex;align-items:center;gap:6px}
+.leg i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 16px}
+.filters select{background:var(--panel);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13px}
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--mut);margin:14px 0}
+.note b{color:var(--tx)}
+footer{max-width:1080px;margin:30px auto 40px;padding:0 22px;color:var(--mut);font-size:11.5px;line-height:1.6}
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:16px}
+canvas{max-width:100%}
+.pos{font-size:11px;color:var(--mut);margin-top:2px}
+</style>
+</head>
+<body>
+<header>
+<h1>PISA 2025 <span>— Pernambuco em Perspectiva</span></h1>
+<p>Programa Internacional de Avaliação de Estudantes (OCDE) · divulgação 08/09/2026 · fontes: INEP e OCDE Volume I (Anexo B2)</p>
+</header>
+<nav>
+<button data-t="t1" class="on">🇧🇷 Brasil × Mundo</button>
+<button data-t="t2">🌎 Brasil × América Latina</button>
+<button data-t="t3">🌶 Pernambuco × Brasil</button>
+<button data-t="t4">🧭 Pernambuco × Nordeste</button>
+<button data-t="t5">🗺 Ranking dos Estados</button>
+<button data-t="t6">📈 Evolução 2015→2025</button>
+<button data-t="t7">🕸 Radar de Estados</button>
+</nav>
+<main>
+
+<!-- ===== TAB 1 ===== -->
+<section id="t1" class="on">
+<h2>Brasil × Mundo <small>— médias 2025 em Leitura, Matemática e Ciências</small></h2>
+<div class="kpis" id="k1"></div>
+<div class="leg"><span><i style="background:#2ea86e"></i>Brasil</span><span><i style="background:#8ea0b9"></i>OCDE (23 países)</span></div>
+<div class="grid">
+<div class="card"><h3>Série histórica — <b id="h1d"></b></h3><canvas id="c_hist" height="230"></canvas>
+<div class="filters"><select id="s_dom1"></select></div></div>
+<div class="card"><h3>Posição do Brasil entre <b>as economias</b></h3>
+<div style="max-height:520px;overflow-y:auto">
+<table id="t_rank"><thead><tr><th>Economia</th><th class="n">Leitura</th><th class="n">Matemática</th><th class="n">Ciências</th><th class="n">Média</th></tr></thead><tbody></tbody></table>
+</div>
+<div style="color:var(--mut);font-size:11px;margin-top:6px">Ordenado pela média das 3 áreas · destaque: OCDE-23 (referência) e Brasil</div></div>
+</div>
+</section>
+
+<!-- ===== TAB 2 ===== -->
+<section id="t2">
+<h2>Brasil × América Latina <small>— como o país se posiciona na região</small></h2>
+<div class="kpis" id="k2"></div>
+<div class="grid">
+<div class="card"><h3>Comparativo latino-americano — <b id="h2d"></b></h3><canvas id="c_lat" height="260"></canvas>
+<div class="filters"><select id="s_dom2"></select></div></div>
+<div class="card"><h3>Tabela regional</h3>
+<table id="t_lat"><thead><tr><th>País</th><th class="n">Leitura</th><th class="n">Matemática</th><th class="n">Ciências</th><th class="n">Média</th></tr></thead><tbody></tbody></table>
+<div style="color:var(--mut);font-size:11px;margin-top:6px">Sem nota = país não divulgou nesta fonte</div></div>
+</div>
+</section>
+
+<!-- ===== TAB 3 ===== -->
+<section id="t3">
+<h2>Pernambuco × Brasil <small>— recorte estadual oficial (OCDE Anexo B2)</small></h2>
+<div class="kpis" id="k3"></div>
+<div class="grid">
+<div class="card"><h3>Comparação direta (com erro-padrão)</h3>
+<table id="t_pebr"><thead><tr><th>Área</th><th class="n">Pernambuco</th><th class="n">Brasil</th><th class="n">Diferença</th></tr></thead><tbody></tbody></table>
+<div class="note" style="margin-top:12px"><b>Como ler:</b> o PISA usa escala única (média OCDE histórica = 500). Diferenças dentro de ~2 erros-padrão podem não ser significativas estatisticamente. PE fica <b>abaixo da média nacional nas 3 áreas</b>; a menor distância é em Leitura (−27 pts), a maior em Matemática (−25 pts).</div></div>
+<div class="card"><h3>Série histórica Brasil (contexto) — <b id="h3d"></b></h3><canvas id="c_pehist" height="230"></canvas>
+<div class="filters"><select id="s_dom3"></select></div></div>
+</div>
+</section>
+
+<!-- ===== TAB 4 ===== -->
+<section id="t4">
+<h2>Pernambuco × Nordeste <small>— os 9 estados da região, dados oficiais</small></h2>
+<div class="card"><h3>Estados do Nordeste — <b id="h4d"></b></h3><canvas id="c_ne" height="300"></canvas>
+<div class="filters"><select id="s_dom4"></select></div></div>
+<div class="card" style="margin-top:14px"><h3>Tabela Nordeste (com erro-padrão)</h3>
+<table id="t_ne"><thead><tr><th>Estado</th><th class="n">Leitura <span class="se">±EP</span></th><th class="n">Matemática <span class="se">±EP</span></th><th class="n">Ciências <span class="se">±EP</span></th><th class="n">RPFC <span class="se">±EP</span></th><th class="n">Média</th></tr></thead><tbody></tbody></table></div>
+</section>
+
+<!-- ===== TAB 5 ===== -->
+<section id="t5">
+<h2>Ranking dos Estados <small>— os 27, por área selecionada</small></h2>
+<div class="filters"><select id="s_dom5"></select></div>
+<div class="card"><canvas id="c_uf" height="640"></canvas></div>
+<div class="card" style="margin-top:14px">
+<table id="t_uf"><thead><tr><th>#</th><th>Estado</th><th class="n">Leitura</th><th class="n">Matemática</th><th class="n">Ciências</th><th class="n">RPFC</th><th class="n">Média 3 áreas</th></tr></thead><tbody></tbody></table>
+</div>
+</section>
+<!-- ===== TAB 6: EVOLUCAO ===== -->
+<section id="t6">
+<h2>Evolução 2015 → 2025 <small>— trajetória por estado (recorte estadual existe em 2015 e 2025; 2018/2022 saíram só por região)</small></h2>
+<div class="filters">
+<select id="s_dom6"></select>
+<select id="s_uf6"></select>
+<label style="color:var(--mut);font-size:12px;align-self:center"><input type="checkbox" id="ck_br6" checked> Mostrar Brasil</label>
+<label style="color:var(--mut);font-size:12px;align-self:center"><input type="checkbox" id="ck_oc6" checked> Mostrar OCDE-23</label>
+</div>
+<div class="grid">
+<div class="card"><h3>Trajetória — <b id="h6d"></b></h3><canvas id="c_ev" height="260"></canvas></div>
+<div class="card"><h3>Δ 2025 − 2015 (pontos)</h3><canvas id="c_delta" height="260"></canvas>
+<div style="color:var(--mut);font-size:11px;margin-top:6px">Barras azuis = avanço · vermelhas = recuo · eixo no zero</div></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>Tabela: 2015 vs 2025 por estado — <b id="h6t"></b></h3>
+<table id="t_ev"><thead><tr><th>Estado</th><th class="n">2015</th><th class="n">2025</th><th class="n">Δ</th><th class="n">Δ anual</th></tr></thead><tbody></tbody></table>
+<div class="note" style="margin-top:12px"><b>Nota metodológica:</b> entre 2015 e 2025 houve pandemia (2022 foi edição pós-COVID) e mudanças no modo de aplicação (computador desde 2015 no Brasil; RPFC novo em 2025). Comparações de longo prazo devem considerar os EPs (~2 EP de margem para significância).</div></div>
+</section>
+
+<!-- ===== TAB 7: RADAR ===== -->
+<section id="t7">
+<h2>Radar de Estados <small>— compare o perfil de até 4 estados nas 4 áreas</small></h2>
+<div class="filters">
+<select id="s_ufa"></select>
+<select id="s_ufb"></select>
+<select id="s_ufc"></select>
+<select id="s_ufd"></select>
+</div>
+<div class="grid" style="grid-template-columns:minmax(340px,1.2fr) minmax(280px,1fr)">
+<div class="card"><canvas id="c_rad" height="420"></canvas>
+<div class="leg" id="leg_rad"></div></div>
+<div class="card"><h3>Valores — <b id="h7t"></b></h3>
+<table id="t_rad"><thead><tr><th>Estado</th><th class="n">Leitura</th><th class="n">Mat.</th><th class="n">Ciên.</th><th class="n">RPFC</th><th class="n">Média</th></tr></thead><tbody></tbody></table>
+<div class="note" style="margin-top:12px"><b>Como ler:</b> eixos de 300 (centro) a 500 (borda) — a linha tracejada âmbar é a média do Brasil. Quanto maior a área do polígono, mais alto o perfil geral; formas irregulares revelam pontos fortes/fracos por área.</div></div>
+</div>
+</section>
+
+</main>
+<footer>
+<b>Fontes:</b> OCDE, PISA 2025 Results (Volume I) © OCDE 2026 — países (tabelas INEP/OCDE) e <b>estados brasileiros: Anexo B2, Tables I.B2.1–B2.4</b> (média e erro-padrão por UF) · INEP — Resultados PISA 2025 (set/2026).<br>
+Escala PISA: média histórica OCDE = 500 pontos. Avalia estudantes de 15 anos; médias estaduais consideram redes pública e privada. RPFC = Resolução de Problemas por meio de Ferramentas Computacionais (domínio inovador de 2025).<br>
+Erros-padrão (EP) indicam incerteza amostral — diferenças menores que ~2 EP devem ser lidas com cautela.
+</footer>
+<script>
+const AREAS=["Leitura","Matemática","Ciências","RPFC"];
+const ABBR={Leitura:"Leitura",Matemática:"Mat.",Ciências:"Ciên.",RPFC:"RPFC"};
+const CORE={Leitura:0,Matemática:1,Ciências:2,RPFC:3}; // indice nos arrays [L,M,C,RPFC]
+const $=id=>document.getElementById(id);
+const fmt=v=>v==null?"—":(Math.round(v*10)/10).toLocaleString("pt-BR");
+const C={br:"#2ea86e",oc:"#8ea0b9",pe:"#e05252",ne:"#4f8ef7",lat:"#9b59d0",acc:"#f5b942"};
+
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll("section").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); $(b.dataset.t).classList.add("on"); drawAll();
+});
+
+// ---------- graficos ----------
+function axis(ctx,w,h,pad,minV,maxV){
+  ctx.strokeStyle="#1e2c45"; ctx.fillStyle="#8ea0b9"; ctx.font="10px system-ui";
+  const steps=5;
+  for(let i=0;i<=steps;i++){
+    const v=minV+(maxV-minV)*i/steps, y=h-pad.b-(h-pad.t-pad.b)*i/steps;
+    ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(w-pad.r,y);ctx.stroke();
+    ctx.fillText(Math.round(v),6,y+3);
+  }
+}
+function lineChart(cid,series,labels,minV,maxV){
+  const cv=$(cid); const w=cv.width=cv.clientWidth||600, h=cv.height;
+  const ctx=cv.getContext("2d"); ctx.clearRect(0,0,w,h);
+  const pad={l:34,r:10,t:10,b:22};
+  axis(ctx,w,h,pad,minV,maxV);
+  const X=i=>pad.l+(w-pad.l-pad.r)*i/Math.max(1,labels.length-1);
+  const Y=v=>h-pad.b-(h-pad.t-pad.b)*(v-minV)/(maxV-minV);
+  series.forEach(s=>{
+    ctx.strokeStyle=s.color; ctx.lineWidth=2.2; ctx.beginPath();
+    let started=false;
+    s.pts.forEach((v,i)=>{ if(v==null)return; const x=X(i),y=Y(v);
+      started?ctx.lineTo(x,y):(ctx.moveTo(x,y),started=true); });
+    ctx.stroke();
+    s.pts.forEach((v,i)=>{ if(v==null)return; ctx.fillStyle=s.color; ctx.beginPath();
+      ctx.arc(X(i),Y(v),3,0,7); ctx.fill(); });
+  });
+  ctx.fillStyle="#8ea0b9"; ctx.font="10px system-ui"; ctx.textAlign="center";
+  labels.forEach((l,i)=>ctx.fillText(l,X(i),h-6));
+  ctx.textAlign="left";
+}
+function hbars(cid,rows,ref,minV,maxV){
+  const cv=$(cid); const w=cv.width=cv.clientWidth||600;
+  const rh=24, pad={l:160,r:44,t:8,b:8};
+  cv.height=pad.t+pad.b+rows.length*rh;
+  const ctx=cv.getContext("2d"); ctx.clearRect(0,0,w,cv.height);
+  const X=v=>pad.l+(w-pad.l-pad.r)*(v-minV)/(maxV-minV);
+  rows.forEach((r,i)=>{
+    const y=pad.t+i*rh;
+    ctx.fillStyle="#e8eef7"; ctx.font="11.5px system-ui"; ctx.textAlign="right";
+    ctx.fillText(r.label,pad.l-8,y+rh/2+2); ctx.textAlign="left";
+    if(r.v==null){ ctx.fillStyle="#566"; ctx.fillText("—",pad.l+6,y+rh/2+2); return; }
+    ctx.fillStyle=r.color; const bw=Math.max(2,X(r.v)-pad.l);
+    ctx.beginPath();
+    if(ctx.roundRect){ctx.roundRect(pad.l,y+3,bw,rh-10,4)}else{ctx.rect(pad.l,y+3,bw,rh-10)}
+    ctx.fill();
+    ctx.fillStyle="#0b1220"; ctx.font="bold 10.5px system-ui";
+    ctx.fillText(fmt(r.v),Math.min(X(r.v)+4,w-32),y+rh/2+2);
+  });
+  if(ref!=null){ const x=X(ref); ctx.strokeStyle=C.acc; ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(x,pad.t);ctx.lineTo(x,cv.height-pad.b);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle=C.acc; ctx.font="10px system-ui"; ctx.fillText("Brasil "+fmt(ref),Math.min(x+4,w-80),pad.t+10); }
+}
+function fillSel(id,cb){ const el=$(id); if(!el.options.length){
+  AREAS.forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;el.appendChild(o)});
+  el.onchange=cb; } }
+
+// ---------- TAB 1 ----------
+function tab1(){
+  const B=PISA.brasil, O=PISA.ocde_av23;
+  $("k1").innerHTML=["Leitura","Matemática","Ciências"].map((a,i)=>{
+    const d=B[i]-O[i];
+    return `<div class="card"><h3>${a}</h3><div class="big br">${B[i]}</div>
+    <div class="dif">OCDE-23: <b>${O[i]}</b> · Brasil <b class="${d>0?'up':'down'}">${d>0?'+':''}${d}</b></div>
+    <div class="bar"><i style="width:${Math.min(100,B[i]/5.5)}%;background:${C.br}"></i></div></div>`;
+  }).join("");
+  fillSel("s_dom1",tab1);
+  const dom=$("s_dom1").value||"Leitura"; $("h1d").textContent=dom;
+  const hd=PISA.hist[dom];
+  const yrs=Object.keys(hd).map(Number);
+  lineChart("c_hist",[
+    {color:C.oc,pts:yrs.map(y=>hd[y]?hd[y][0]:null)},
+    {color:C.br,pts:yrs.map(y=>hd[y]?hd[y][1]:null)},
+  ],yrs.map(String),320,510);
+  const rows=Object.entries(PISA.paises).map(([n,v])=>({
+    n, ocde:PISA.oecd.includes(n),
+    media:(v[0]!=null&&v[1]!=null&&v[2]!=null)?(v[0]+v[1]+v[2])/3:null, v
+  })).filter(r=>r.media!=null).sort((a,b)=>b.media-a.media);
+  const posBR=rows.findIndex(r=>r.n==="Brasil")+1;
+  $("t_rank").querySelector("tbody").innerHTML=
+    `<tr class="hl"><td>OCDE — média dos 23</td><td class="n">${O[0]}</td><td class="n">${O[1]}</td><td class="n">${O[2]}</td><td class="n">${((O[0]+O[1]+O[2])/3).toFixed(0)}</td></tr>`+
+    rows.map(r=>`<tr class="${r.n==="Brasil"?"me":""}"><td>${r.n}${r.ocde?" <span style='color:#566;font-size:10px'>OCDE</span>":""}</td>
+    <td class="n">${r.v[0]}</td><td class="n">${r.v[1]}</td><td class="n">${r.v[2]}</td><td class="n">${r.media.toFixed(0)}</td></tr>`).join("")+
+    `<tr><td colspan="5" style="color:var(--mut);font-size:11px">Brasil: ${posBR}º de ${rows.length} economias com nota completa</td></tr>`;
+}
+
+// ---------- TAB 2 ----------
+const LATAM=["Brasil","Argentina","Chile","Colômbia","México","Uruguai","Peru","Equador","Costa Rica","El Salvador","Rep. Dominicana","Guatemala","Paraguai"];
+function tab2(){
+  fillSel("s_dom2",tab2);
+  const dom=$("s_dom2").value||"Leitura";
+  const di=AREAS.includes(dom)?(dom==="RPFC"?-1:CORE[dom]):0;
+  const brRef=dom==="RPFC"?PISA.brasil_rpfc:PISA.brasil[CORE[dom]];
+  $("h2d").textContent=dom;
+  const rows=LATAM.map(n=>({label:n, v:dom==="RPFC"?null:(PISA.paises[n]?PISA.paises[n][di]:null),
+    color:n==="Brasil"?C.br:C.lat}));
+  const vals=rows.map(r=>r.v).filter(v=>v!=null);
+  hbars("c_lat",rows,brRef,Math.min(...vals,brRef)-15,Math.max(...vals,brRef)+15);
+  $("t_lat").querySelector("tbody").innerHTML=rows.map(r=>{
+    const p=PISA.paises[r.label];
+    const med=(p&&p[0]!=null)?((p[0]+p[1]+p[2])/3):null;
+    return `<tr class="${r.label==="Brasil"?"me":""}"><td>${r.label}</td>
+    <td class="n">${p&&p[0]!=null?p[0]:"—"}</td><td class="n">${p&&p[1]!=null?p[1]:"—"}</td>
+    <td class="n">${p&&p[2]!=null?p[2]:"—"}</td><td class="n">${med?med.toFixed(0):"—"}</td></tr>`;
+  }).join("");
+  const latVals=LATAM.filter(n=>PISA.paises[n]&&PISA.paises[n][di]!=null).map(n=>({n,v:PISA.paises[n][di]})).sort((a,b)=>b.v-a.v);
+  const posBr=latVals.findIndex(x=>x.n==="Brasil")+1;
+  $("k2").innerHTML=`
+  <div class="card"><h3>${ABBR[dom]} — Brasil</h3><div class="big br">${brRef}</div>
+   <div class="dif pos">${posBr>0?posBr+"º na América Latina ("+latVals.length+" países com nota)":"—"}</div></div>
+  <div class="card"><h3>Melhor da região</h3><div class="big oc">${latVals[0]?latVals[0].v:"—"}</div>
+   <div class="dif">${latVals[0]?latVals[0].n:""}${latVals[0]?" · "+(latVals[0].v-brRef>0?"+":"")+(latVals[0].v-brRef)+" vs Brasil":""}</div></div>
+  <div class="card"><h3>Referência OCDE-23</h3><div class="big oc">${PISA.ocde_av23[CORE[dom]]||"—"}</div>
+   <div class="dif">Brasil: <b class="down">${brRef-PISA.ocde_av23[CORE[dom]]}</b> pts</div></div>`;
+}
+
+// ---------- TAB 3: PE x Brasil ----------
+function tab3(){
+  const pe=PISA.estados["Pernambuco"]; const peSE=PISA.estados_se["Pernambuco"];
+  const br=[...PISA.brasil,PISA.brasil_rpfc];
+  $("k3").innerHTML=AREAS.map((a,i)=>{
+    const d=pe[i]-br[i];
+    return `<div class="card"><h3>${a}</h3><div class="big pe">${fmt(pe[i])}</div>
+    <div class="dif">Brasil: <b>${fmt(br[i])}</b> · PE <b class="${d>0?'up':'down'}">${d>0?'+':''}${fmt(d)}</b></div>
+    <div class="dif" style="font-size:11px">± ${peSE[i]} (erro-padrão)</div>
+    <div class="bar"><i style="width:${Math.min(100,pe[i]/5.5)}%;background:${C.pe}"></i></div></div>`;
+  }).join("");
+  $("t_pebr").querySelector("tbody").innerHTML=AREAS.map((a,i)=>{
+    const d=pe[i]-br[i];
+    return `<tr><td>${a}</td><td class="n">${fmt(pe[i])} <small style="color:#566">±${peSE[i]}</small></td>
+    <td class="n">${fmt(br[i])}</td>
+    <td class="n">${d>0?"+":""}${fmt(d)}</td></tr>`;
+  }).join("");
+  fillSel("s_dom3",tab3);
+  const dom=$("s_dom3").value||"Ciências";
+  $("h3d").textContent=dom;
+  const hd=PISA.hist[dom];
+  if(hd){
+    const yrs=Object.keys(hd).map(Number);
+    lineChart("c_pehist",[{color:C.br,pts:yrs.map(y=>hd[y][1])}],yrs.map(String),320,510);
+  }
+}
+
+// ---------- TAB 4: PE x Nordeste ----------
+function tab4(){
+  fillSel("s_dom4",tab4);
+  const dom=$("s_dom4").value||"Leitura";
+  const di=AREAS.indexOf(dom);
+  $("h4d").textContent=dom;
+  const brRef=dom==="RPFC"?PISA.brasil_rpfc:PISA.brasil[CORE[dom]];
+  const rows=PISA.nordeste.map(n=>({
+    label:n, v:PISA.estados[n][di],
+    color:n==="Pernambuco"?C.pe:(n==="Rio Grande do Norte"?C.acc:C.ne)
+  })).sort((a,b)=>b.v-a.v);
+  const vals=rows.map(r=>r.v);
+  hbars("c_ne",rows,brRef,Math.min(...vals,brRef)-10,Math.max(...vals,brRef)+10);
+  $("t_ne").querySelector("tbody").innerHTML=rows.map(r=>{
+    const p=PISA.estados[r.label], s=PISA.estados_se[r.label];
+    const med=(p[0]+p[1]+p[2])/3;
+    return `<tr class="${r.label==="Pernambuco"?"me":""}"><td>${r.label}</td>
+    <td class="n">${fmt(p[0])} <small style="color:#566">${s[0]}</small></td>
+    <td class="n">${fmt(p[1])} <small style="color:#566">${s[1]}</small></td>
+    <td class="n">${fmt(p[2])} <small style="color:#566">${s[2]}</small></td>
+    <td class="n">${fmt(p[3])} <small style="color:#566">${s[3]}</small></td>
+    <td class="n">${med.toFixed(0)}</td></tr>`;
+  }).join("")+`<tr class="hl"><td>Brasil</td><td class="n">${PISA.brasil[0]}</td><td class="n">${PISA.brasil[1]}</td><td class="n">${PISA.brasil[2]}</td><td class="n">${PISA.brasil_rpfc}</td><td class="n">${((PISA.brasil[0]+PISA.brasil[1]+PISA.brasil[2])/3).toFixed(0)}</td></tr>`;
+}
+
+// ---------- TAB 5: ranking UFs ----------
+function tab5(){
+  fillSel("s_dom5",tab5);
+  const dom=$("s_dom5").value||"Ciências";
+  const di=AREAS.indexOf(dom);
+  const brRef=dom==="RPFC"?PISA.brasil_rpfc:PISA.brasil[CORE[dom]];
+  const brRefIdx=CORE[dom];
+  const rows=Object.entries(PISA.estados).map(([n,v])=>({n,v:v[di],full:v}))
+    .sort((a,b)=>b.v-a.v);
+  hbars("c_uf",rows.map(r=>({label:r.n,v:r.v,color:r.n==="Pernambuco"?C.pe:(PISA.nordeste.includes(r.n)?C.ne:C.oc)})),
+    brRef,Math.min(...rows.map(r=>r.v))-10,Math.max(...rows.map(r=>r.v))+10);
+  $("t_uf").querySelector("tbody").innerHTML=rows.map((r,i)=>{
+    const med=(r.full[0]+r.full[1]+r.full[2])/3;
+    return `<tr class="${r.n==="Pernambuco"?"me":""} ${PISA.nordeste.includes(r.n)?"ne":""}"><td class="n">${i+1}</td><td>${r.n}</td>
+    <td class="n">${fmt(r.full[0])}</td><td class="n">${fmt(r.full[1])}</td>
+    <td class="n">${fmt(r.full[2])}</td><td class="n">${fmt(r.full[3])}</td>
+    <td class="n"><b>${med.toFixed(0)}</b></td></tr>`;
+  }).join("");
+}
+
+// ---------- TAB 6: Evolucao 2015 -> 2025 ----------
+function tab6(){
+  const domSel=$("s_dom6");
+  if(!domSel.options.length){
+    ["Leitura","Matemática","Ciências"].forEach(a=>{const o=document.createElement("option");o.value=a;o.textContent=a;domSel.appendChild(o)});
+    const ufSel=$("s_uf6");
+    ufSel.innerHTML="";
+    Object.keys(PISA.estados).sort((a,b)=>a.localeCompare(b,"pt")).forEach(u=>{const o=document.createElement("option");o.value=u;o.textContent=u;ufSel.appendChild(o)});
+    ufSel.value="Pernambuco";
+    domSel.onchange=tab6; ufSel.onchange=tab6;
+    $("ck_br6").onchange=tab6; $("ck_oc6").onchange=tab6;
+  }
+  const dom=domSel.value||"Leitura";
+  const CORE15={Leitura:0,Matemática:1,Ciências:2};
+  const di15=CORE15[dom]; // indice no array 2015 [L,M,C]
+  const di25=CORE[dom];   // indice no array 2025 [L,M,C,RPFC]
+  const uf=$("s_uf6").value||"Pernambuco";
+  $("h6d").textContent=dom;
+  $("h6t").textContent=dom;
+
+  // serie historica do Brasil (completa) + pontos do estado
+  const hd=PISA.hist[dom];
+  const yrs=Object.keys(hd).map(Number);
+  const series=[];
+  if($("ck_oc6").checked) series.push({color:C.oc,pts:yrs.map(y=>hd[y]?hd[y][0]:null)});
+  if($("ck_br6").checked) series.push({color:C.br,pts:yrs.map(y=>hd[y]?hd[y][1]:null)});
+  // estado: 2015 e 2025 sobre o mesmo eixo de anos
+  const ufPts={}; yrs.forEach(y=>ufPts[y]=null);
+  if(PISA.estados_2015[uf]) ufPts[2015]=PISA.estados_2015[uf][di15];
+  if(PISA.estados[uf]) ufPts[2025]=PISA.estados[uf][di25];
+  series.push({color:C.pe,pts:yrs.map(y=>ufPts[y])});
+  lineChart("c_ev",series,yrs.map(String),320,510);
+  // marca no subtitulo
+  $("h6d").textContent=dom+" — "+uf;
+
+  // delta por estado (2025-2015)
+  const rows=Object.keys(PISA.estados).map(n=>{
+    const a=PISA.estados_2015[n]?PISA.estados_2015[n][di15]:null;
+    const b=PISA.estados[n][di25];
+    return {n,d:(a!=null&&b!=null)?Math.round(b-a):null};
+  }).filter(r=>r.d!=null).sort((x,y)=>y.d-x.d);
+  const cv=$("c_delta"); const w=cv.width=cv.clientWidth||600;
+  const rh=15,pad={l:150,r:44,t:8,b:8};
+  cv.height=pad.t+pad.b+rows.length*rh;
+  const ctx=cv.getContext("2d"); ctx.clearRect(0,0,w,cv.height);
+  const maxAbs=Math.max(15,...rows.map(r=>Math.abs(r.d)));
+  const X0=pad.l+(w-pad.l-pad.r)*0.5; // zero no meio? melhor: escala assimetrica
+  const Xv=v=>pad.l+(w-pad.l-pad.r)*( (v+maxAbs)/(2*maxAbs) );
+  rows.forEach((r,i)=>{
+    const y=pad.t+i*rh;
+    ctx.fillStyle="#e8eef7"; ctx.font="10.5px system-ui"; ctx.textAlign="right";
+    ctx.fillText(r.n,pad.l-6,y+rh/2+2); ctx.textAlign="left";
+    const x=Xv(Math.min(0,r.d)), bw=Math.abs(Xv(r.d)-Xv(0));
+    ctx.fillStyle=r.d>0?(r.n==="Pernambuco"?"#e05252":"#4f8ef7"):(r.d<0?(r.n==="Pernambuco"?"#e05252":"#c05252"):"#4f8ef7");
+    if(r.d>0)ctx.fillStyle=r.n==="Pernambuco"?"#e05252":"#4f8ef7";
+    ctx.beginPath(); if(ctx.roundRect){ctx.roundRect(Math.min(x,Xv(0)),y+3,Math.max(2,bw),rh-9,3)}else{ctx.rect(Math.min(x,Xv(0)),y+3,Math.max(2,bw),rh-9)} ctx.fill();
+    ctx.fillStyle="#0b1220"; ctx.font="bold 9.5px system-ui";
+    ctx.fillText((r.d>0?"+":"")+r.d, (r.d>0?Xv(r.d)+3:Xv(r.d)-28), y+rh/2+2);
+  });
+  ctx.strokeStyle="#566"; ctx.setLineDash([3,3]);
+  ctx.beginPath();ctx.moveTo(Xv(0),pad.t);ctx.lineTo(Xv(0),cv.height-pad.b);ctx.stroke();ctx.setLineDash([]);
+
+  // tabela
+  const br15={Leitura:407,Matemática:377,Ciências:401}[dom];
+  $("t_ev").querySelector("tbody").innerHTML=
+    `<tr class="hl"><td>Brasil</td><td class="n">${br15}</td><td class="n">${PISA.brasil[di25]}</td><td class="n">${PISA.brasil[di25]-br15>=0?"+":""}${PISA.brasil[di25]-br15}</td><td class="n">—</td></tr>`+
+    rows.map(r=>{
+      const a=PISA.estados_2015[r.n][di15], b=PISA.estados[r.n][di25];
+      return `<tr class="${r.n===uf?"me":""}"><td>${r.n}</td><td class="n">${a}</td><td class="n">${fmt(b)}</td>
+      <td class="n" style="color:${r.d>0?'#3ecf8e':'#e05252'}">${r.d>0?"+":""}${r.d}</td>
+      <td class="n">${(r.d/10).toFixed(1)}</td></tr>`;
+    }).join("");
+}
+
+// ---------- TAB 7: Radar ----------
+const RADAR_COLORS=["#e05252","#4f8ef7","#2ea86e","#9b59d0"];
+function tab7(){
+  const ufsel=["s_ufa","s_ufb","s_ufc","s_ufd"];
+  ufsel.forEach((id,k)=>{
+    const el=$(id);
+    if(!el.options.length){
+      Object.keys(PISA.estados).sort((a,b)=>a.localeCompare(b,"pt")).forEach(u=>{
+        const o=document.createElement("option");o.value=u;o.textContent=u;el.appendChild(o);
+      });
+      el.onchange=tab7;
+    }
+  });
+  if(!$("s_ufa").value) $("s_ufa").value="Pernambuco";
+  if(!$("s_ufb").value) $("s_ufb").value="Rio Grande do Norte";
+  if(!$("s_ufc").value) $("s_ufc").value="Ceará";
+  if(!$("s_ufd").value) $("s_ufd").value="Paraná";
+  const picks=[[$("s_ufa").value,RADAR_COLORS[0]],[$("s_ufb").value,RADAR_COLORS[1]],
+               [$("s_ufc").value,RADAR_COLORS[2]],[$("s_ufd").value,RADAR_COLORS[3]]];
+  const uniq=[...new Map(picks.map(p=>[p[0],p])).values()].filter(p=>p[0]);
+  $("h7t").textContent=uniq.map(u=>u[0]).join(" · ");
+
+  // desenha radar
+  const cv=$("c_rad"); const w=cv.width=cv.clientWidth||500, h=cv.height;
+  const ctx=cv.getContext("2d"); ctx.clearRect(0,0,w,h);
+  const cx=w/2, cy=h/2+8, R=Math.min(w,h)/2-58;
+  const N=AREAS.length;
+  const MINV=300, MAXV=500;
+  const ang=i=>-Math.PI/2 + i*2*Math.PI/N;
+  const Rv=v=>R*(v-MINV)/(MAXV-MINV);
+  // grade
+  ctx.strokeStyle="#1e2c45";
+  for(let g=0;g<=4;g++){
+    ctx.beginPath();
+    for(let i=0;i<=N;i++){
+      const r=R*g/4, a=ang(i%N);
+      const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.stroke();
+    ctx.fillStyle="#566"; ctx.font="9.5px system-ui";
+    const v=Math.round(MINV+(MAXV-MINV)*g/4);
+    ctx.fillText(v,cx+3,cy-R*g/4-3);
+  }
+  // eixos + rotulos
+  AREAS.forEach((a,i)=>{
+    const an=ang(i);
+    ctx.strokeStyle="#1e2c45";
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+R*Math.cos(an),cy+R*Math.sin(an));ctx.stroke();
+    ctx.fillStyle="#8ea0b9"; ctx.font="bold 11px system-ui"; ctx.textAlign="center";
+    ctx.fillText(a, cx+(R+22)*Math.cos(an), cy+(R+22)*Math.sin(an)+4);
+  });
+  ctx.textAlign="left";
+  // Brasil (referencia tracejada)
+  ctx.strokeStyle=C.acc; ctx.setLineDash([5,4]); ctx.lineWidth=1.6; ctx.beginPath();
+  const brVals=[PISA.brasil[0],PISA.brasil[1],PISA.brasil[2],PISA.brasil_rpfc];
+  for(let i=0;i<=N;i++){
+    const a=ang(i%N), v=brVals[i%N], r=Rv(v);
+    const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+    i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+  }
+  ctx.stroke(); ctx.setLineDash([]);
+  // estados
+  uniq.forEach(([uf,color])=>{
+    ctx.strokeStyle=color; ctx.lineWidth=2.2; ctx.beginPath();
+    for(let i=0;i<=N;i++){
+      const a=ang(i%N), v=PISA.estados[uf][i%N], r=Rv(v);
+      const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.stroke();
+    ctx.globalAlpha=.12; ctx.fillStyle=color;
+    ctx.beginPath();
+    for(let i=0;i<N;i++){
+      const a=ang(i), v=PISA.estados[uf][i], r=Rv(v);
+      const x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+      i?ctx.lineTo(x,y):ctx.moveTo(x,y);
+    }
+    ctx.closePath(); ctx.fill(); ctx.globalAlpha=1;
+  });
+  $("leg_rad").innerHTML=uniq.map(([uf,color])=>`<span><i style="background:${color}"></i>${uf}</span>`).join("")+`<span><i style="background:${C.acc};opacity:.7"></i>Brasil (referência)</span>`;
+  // tabela
+  $("t_rad").querySelector("tbody").innerHTML=uniq.map(([uf,color])=>{
+    const v=PISA.estados[uf];
+    const med=((v[0]+v[1]+v[2])/3).toFixed(0);
+    return `<tr class="${uf==="Pernambuco"?"me":""}"><td style="color:${color};font-weight:700">${uf}</td>
+    <td class="n">${fmt(v[0])}</td><td class="n">${fmt(v[1])}</td><td class="n">${fmt(v[2])}</td>
+    <td class="n">${fmt(v[3])}</td><td class="n">${med}</td></tr>`;
+  }).join("");
+}
+
+function drawAll(){try{tab1();tab2();tab3();tab4();tab5();tab6();tab7();}catch(e){console.error(e)}}
+window.addEventListener("resize",drawAll);
+drawAll();
+</script>
+</body>
+</html>
