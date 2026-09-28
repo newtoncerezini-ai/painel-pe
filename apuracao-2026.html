@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apuração 2026 — PE em Tempo Real</title>
+<style>
+:root{--bg:#0b1220;--panel:#111b2e;--panel2:#0e1626;--line:#1e2c45;--tx:#e8eef7;--mut:#8ea0b9;
+--acc:#f5b942;--pe:#e05252;--ok:#2ea86e;--warn:#e0762e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif;min-height:100vh}
+header{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+header h1{font-size:18px;font-weight:800}
+header h1 span{color:var(--acc)}
+#status{display:flex;gap:14px;align-items:center;font-size:12px;color:var(--mut)}
+#status .live{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+#status .live i{width:9px;height:9px;border-radius:50%;background:var(--warn);animation:pulse 1.5s infinite}
+#status .live.on i{background:var(--ok)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+nav{display:flex;gap:8px;padding:10px 22px;background:var(--panel2);border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;top:57px;z-index:49}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--mut);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:600}
+nav button.on{background:var(--acc);color:#0b1220;border-color:var(--acc)}
+main{max-width:1120px;margin:0 auto;padding:18px 22px 70px}
+section{display:none}
+section.on{display:block}
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h3{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.big{font-size:26px;font-weight:800}
+.sub{font-size:11.5px;color:var(--mut);margin-top:2px}
+.big.ok{color:var(--ok)} .big.warn{color:var(--warn)}
+.grid2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(340px,1fr))}
+.race{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+.race h2{font-size:15px;margin-bottom:2px}
+.race .meta{font-size:11.5px;color:var(--mut);margin-bottom:12px}
+.crow{display:grid;grid-template-columns:44px 1fr 120px;gap:10px;align-items:center;padding:7px 0;border-bottom:1px solid rgba(30,44,69,.4)}
+.crow .num{text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:4px 2px;font-weight:700;font-size:13px}
+.crow .nm{min-width:0}
+.crow .nm b{display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crow .nm small{color:var(--mut);font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.crow .pct{text-align:right}
+.crow .pct b{font-size:16px;font-variant-numeric:tabular-nums}
+.crow .pct small{display:block;color:var(--mut);font-size:10.5px}
+.crow .bar{grid-column:1/-1;height:8px;background:var(--panel2);border-radius:5px;overflow:hidden;margin-top:-2px}
+.crow .bar i{display:block;height:100%;border-radius:5px;transition:width .6s}
+.crow.l1 .bar i{background:var(--acc)} .crow.l2 .bar i{background:var(--pe)}
+.crow.eleito .num{border-color:var(--ok);color:var(--ok)}
+.tag{font-size:10px;padding:2px 8px;border-radius:999px;background:rgba(46,168,110,.15);color:var(--ok);font-weight:700;margin-left:6px}
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--mut);margin:14px 0}
+.note b{color:var(--tx)}
+footer{max-width:1120px;margin:26px auto 40px;padding:0 22px;color:var(--mut);font-size:11.5px;line-height:1.6}
+.dual{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+@media(max-width:760px){.dual{grid-template-columns:1fr}}
+.pctbar{height:14px;border-radius:7px;background:var(--panel2);overflow:hidden;display:flex;margin:10px 0 4px}
+.pctbar i{display:block;height:100%;transition:width .6s}
+</style>
+</head>
+<body>
+<header>
+<h1>Apuração 2026 <span>· PE</span></h1>
+<div id="status">
+<span class="live" id="live"><i></i><span id="liveTxt">AGUARDANDO</span></span>
+<span id="clock">—</span>
+<span>atualiza a cada <b id="ivTxt">10s</b></span>
+<label style="font-size:12px"><input type="checkbox" id="ckDemo" checked> demonstração</label>
+</div>
+</header>
+<nav>
+<button data-c="1" class="on">🇧🇷 Presidente</button>
+<button data-c="3">🏛 Governador PE</button>
+<button data-c="5">🏛 Senador PE</button>
+<button data-c="6">📋 Dep. Federal PE</button>
+<button data-c="7">📋 Dep. Estadual PE</button>
+</nav>
+<main>
+<section id="s1" class="on">
+<div class="kpis" id="k1"></div>
+<div class="race" id="race1"></div>
+</section>
+<section id="s3"><div class="kpis" id="k3"></div><div class="race" id="race3"></div></section>
+<section id="s5"><div class="kpis" id="k5"></div><div class="race" id="race5"></div></section>
+<section id="s6"><div class="kpis" id="k6"></div><div class="race" id="race6"></div></section>
+<section id="s7"><div class="kpis" id="k7"></div><div class="race" id="race7"></div></section>
+<div class="note" id="aviso">
+<b>Modo demonstração:</b> os números exibidos são fictícios (simulação) — o painel está pronto para conectar ao TSE.
+No dia 04/10/2026: desmarque "demonstração" (ou edite <code>cfg.ambiente</code> em tse.js) e os dados reais entram no lugar, atualizando a cada 10s.
+Fonte oficial: <a style="color:var(--acc)" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">resultados.tse.jus.br</a> (arquivos JSON de divulgação, acesso público).
+</div>
+</main>
+<footer>
+<b>Fonte:</b> TSE — Divulgação de Resultados (arquivos JSON oficiais, pleito 3220 · eleições 6257/6259) · este painel não substitui a divulgação oficial.
+Cargos monitorados: Presidente (BR), Governador/Senador/Dep. Federal/Dep. Estadual (PE).
+</footer>
+<script>
+// fixture_simulado.js — DEMONSTRAÇÃO no formato EA20 real do TSE
+// Campos: nm=nome, n=numero, cc=coligação, v=votos, pva=% válidos, e=situação (Eleito)
+// Percentuais recalculados = v/validos (consistentes). Lista de proporcionais é parcial (top 15).
+// No dia 04/10: modo real no painel (desmarcar 'demonstração'); simulados do TSE: cfg.ambiente="sim".
+const FIXTURE = {
+ "1": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 155921000,
+   "comparec": 112521000,
+   "abst": 43400000
+  },
+  "v": {
+   "validos": 108432000,
+   "brancos": 2210000,
+   "nulos": 1869000
+  },
+  "cand": [
+   {
+    "nm": "Candidato A",
+    "n": "15",
+    "cc": "Partido X / Federação Alpha",
+    "v": 45231000,
+    "pva": 41.71,
+    "e": ""
+   },
+   {
+    "nm": "Candidato B",
+    "n": "22",
+    "cc": "Partido Y",
+    "v": 31845000,
+    "pva": 29.37,
+    "e": ""
+   },
+   {
+    "nm": "Candidato C",
+    "n": "13",
+    "cc": "Partido Z / Federação Beta",
+    "v": 19764000,
+    "pva": 18.23,
+    "e": ""
+   },
+   {
+    "nm": "Candidato D",
+    "n": "40",
+    "cc": "Partido W",
+    "v": 7892000,
+    "pva": 7.28,
+    "e": ""
+   },
+   {
+    "nm": "Candidato E",
+    "n": "50",
+    "cc": "Partido V",
+    "v": 2480000,
+    "pva": 2.29,
+    "e": ""
+   },
+   {
+    "nm": "Candidato F",
+    "n": "30",
+    "cc": "Partido U",
+    "v": 1120000,
+    "pva": 1.03,
+    "e": ""
+   }
+  ]
+ },
+ "3": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5634000,
+   "brancos": 132000,
+   "nulos": 126000
+  },
+  "cand": [
+   {
+    "nm": "Cand. Governador A",
+    "n": "12",
+    "cc": "Partido G / Coligação Recife Forte",
+    "v": 2142000,
+    "pva": 38.02,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador B",
+    "n": "45",
+    "cc": "Partido H",
+    "v": 1687000,
+    "pva": 29.94,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador C",
+    "n": "15",
+    "cc": "Partido I",
+    "v": 998000,
+    "pva": 17.71,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador D",
+    "n": "25",
+    "cc": "Partido J",
+    "v": 564000,
+    "pva": 10.01,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador E",
+    "n": "50",
+    "cc": "Partido K",
+    "v": 243000,
+    "pva": 4.31,
+    "e": ""
+   }
+  ]
+ },
+ "5": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5412000,
+   "brancos": 220000,
+   "nulos": 260000
+  },
+  "cand": [
+   {
+    "nm": "Senador A",
+    "n": "12",
+    "cc": "Partido G",
+    "v": 1923000,
+    "pva": 35.53,
+    "e": ""
+   },
+   {
+    "nm": "Senador B",
+    "n": "45",
+    "cc": "Partido H",
+    "v": 1542000,
+    "pva": 28.49,
+    "e": ""
+   },
+   {
+    "nm": "Senador C",
+    "n": "15",
+    "cc": "Partido I",
+    "v": 901000,
+    "pva": 16.65,
+    "e": ""
+   },
+   {
+    "nm": "Senador D",
+    "n": "25",
+    "cc": "Partido J",
+    "v": 621000,
+    "pva": 11.47,
+    "e": ""
+   },
+   {
+    "nm": "Senador E",
+    "n": "50",
+    "cc": "Partido K",
+    "v": 425000,
+    "pva": 7.85,
+    "e": ""
+   }
+  ]
+ },
+ "6": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5498000,
+   "brancos": 175000,
+   "nulos": 219000
+  },
+  "cand": [
+   {
+    "nm": "Dep. Federal A",
+    "n": "1201",
+    "cc": "Partido G",
+    "v": 187000,
+    "pva": 3.4,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal B",
+    "n": "4501",
+    "cc": "Partido H",
+    "v": 162000,
+    "pva": 2.95,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal C",
+    "n": "1501",
+    "cc": "Partido I",
+    "v": 148000,
+    "pva": 2.69,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal D",
+    "n": "2501",
+    "cc": "Partido J",
+    "v": 121000,
+    "pva": 2.2,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal E",
+    "n": "5001",
+    "cc": "Partido K",
+    "v": 98400,
+    "pva": 1.79,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal F",
+    "n": "1202",
+    "cc": "Partido G",
+    "v": 92100,
+    "pva": 1.68,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal G",
+    "n": "4502",
+    "cc": "Partido H",
+    "v": 88200,
+    "pva": 1.6,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal H",
+    "n": "1502",
+    "cc": "Partido I",
+    "v": 81500,
+    "pva": 1.48,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal I",
+    "n": "2502",
+    "cc": "Partido J",
+    "v": 76300,
+    "pva": 1.39,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal J",
+    "n": "5002",
+    "cc": "Partido K",
+    "v": 71200,
+    "pva": 1.3,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal K",
+    "n": "1203",
+    "cc": "Partido G",
+    "v": 68400,
+    "pva": 1.24,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal L",
+    "n": "4503",
+    "cc": "Partido H",
+    "v": 64800,
+    "pva": 1.18,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal M",
+    "n": "1503",
+    "cc": "Partido I",
+    "v": 61100,
+    "pva": 1.11,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal N",
+    "n": "2503",
+    "cc": "Partido J",
+    "v": 58300,
+    "pva": 1.06,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal O",
+    "n": "5003",
+    "cc": "Partido K",
+    "v": 54200,
+    "pva": 0.99,
+    "e": ""
+   }
+  ]
+ },
+ "7": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5386000,
+   "brancos": 198000,
+   "nulos": 308000
+  },
+  "cand": [
+   {
+    "nm": "Dep. Estadual A",
+    "n": "12121",
+    "cc": "Partido G",
+    "v": 94500,
+    "pva": 1.75,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual B",
+    "n": "45121",
+    "cc": "Partido H",
+    "v": 88200,
+    "pva": 1.64,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual C",
+    "n": "15121",
+    "cc": "Partido I",
+    "v": 84700,
+    "pva": 1.57,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual D",
+    "n": "25121",
+    "cc": "Partido J",
+    "v": 79300,
+    "pva": 1.47,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual E",
+    "n": "50121",
+    "cc": "Partido K",
+    "v": 74600,
+    "pva": 1.39,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual F",
+    "n": "12122",
+    "cc": "Partido G",
+    "v": 70100,
+    "pva": 1.3,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual G",
+    "n": "45122",
+    "cc": "Partido H",
+    "v": 66400,
+    "pva": 1.23,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual H",
+    "n": "15122",
+    "cc": "Partido I",
+    "v": 62800,
+    "pva": 1.17,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual I",
+    "n": "25122",
+    "cc": "Partido J",
+    "v": 59100,
+    "pva": 1.1,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual J",
+    "n": "50122",
+    "cc": "Partido K",
+    "v": 56200,
+    "pva": 1.04,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual K",
+    "n": "12123",
+    "cc": "Partido G",
+    "v": 53400,
+    "pva": 0.99,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual L",
+    "n": "45123",
+    "cc": "Partido H",
+    "v": 50800,
+    "pva": 0.94,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual M",
+    "n": "15123",
+    "cc": "Partido I",
+    "v": 47600,
+    "pva": 0.88,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual N",
+    "n": "25123",
+    "cc": "Partido J",
+    "v": 44100,
+    "pva": 0.82,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual O",
+    "n": "50123",
+    "cc": "Partido K",
+    "v": 41200,
+    "pva": 0.76,
+    "e": ""
+   }
+  ]
+ }
+};
+
+</script>
+<script>
+// tse.js — Cliente da Divulgação de Resultados do TSE (Eleições 2026)
+// Fonte: documentação oficial "Informações técnicas sobre a divulgação de resultados 2026"
+// Parâmetros oficiais confirmados: pleito 3220 (1º turno), eleições 6257 (federal) e 6259 (estadual)
+//
+// ARQUITETURA:
+// - Nunca chutar URL: ler sempre o config ele-c.json primeiro (o TSE muda o "ciclo" a cada eleição)
+// - Polling com ETag/If-Modified-Since (HTTP 304 = não reprocessa; economiza rate limit de 100 req/s)
+// - Usar EA14/EA15 (acompanhamento) para decidir quais EA20 (resultados por cargo) repolir
+// - Código de município sempre com 5 dígitos (zeros à esquerda)
+
+const TSE = (() => {
+  const AMBIENTES = {
+    oficial: "https://resultados.tse.jus.br/oficial",
+    sim:    "https://resultados-sim.tse.jus.br/oficial",
+  };
+
+  // ---- estado ----
+  const cfg = {
+    ambiente: "oficial",      // trocar para "sim" nos simulados do TSE
+    ciclo: "ele2026",
+    pleito: "3220",           // 1º turno 04/10/2026
+    eleicoes: { federal: "6257", estadual: "6259" },
+    uf: "PE",
+  };
+  const etags = new Map();     // url -> etag
+
+  // ---- helper HTTP ----
+  async function getJSON(url) {
+    const headers = { "User-Agent": "painel-apuracao-pe/1.0" };
+    const et = etags.get(url);
+    if (et) headers["If-None-Match"] = et;
+    const r = await fetch(url, { headers, cache: "no-store" });
+    if (r.status === 304) return { unchanged: true };
+    if (r.status === 404) return { notfound: true };
+    if (!r.ok) throw new Error(`HTTP ${r.status} em ${url}`);
+    const etag = r.headers.get("ETag");
+    if (etag) etags.set(url, etag);
+    return { data: await r.json(), changed: true };
+  }
+
+  // ---- config (EA11): descobre ciclo/codigos reais; fallback p/ valores documentados ----
+  async function loadConfig() {
+    // o config real fica em /comum/config/ele-c.json (dentro do ciclo, quando publicado)
+    for (const path of [
+      `${AMBIENTES[cfg.ambiente]}/comum/config/ele-c.json`,
+      `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/comum/config/ele-c.json`,
+    ]) {
+      try {
+        const { data } = await getJSON(path);
+        if (data) {
+          // o config traz: conf[].c (codigo ciclo) e lista de e<ELEICAO>/p<PLEITO>
+          const c = data.conf?.[0]?.c || cfg.ciclo;
+          cfg.ciclo = `ele${String(c).slice(-4)}` === "ele2026" ? cfg.ciclo : `ele${c}`;
+          if (data.eleicoes) Object.assign(cfg.eleicoes, data.eleicoes);
+          return true;
+        }
+      } catch (e) { /* tenta proximo caminho */ }
+    }
+    return false; // usa valores documentados (3220/6257/6259)
+  }
+
+  // ---- URLs dos arquivos EA20 (resultado unificado por cargo) ----
+  // padrao: .../dados/{abr}/  {abr}-c{CARGO}-e0{ELEICAO}-u.json   (abr = br|pe)
+  function urlUnificado(abr, cargo, eleicao) {
+    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-c${String(cargo).padStart(4, "0")}-e${eleicao}-u.json`;
+  }
+  function urlAcomp(abr, eleicao) {
+    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-e${eleicao}-ab.json`;
+  }
+
+  // ---- cargos de interesse (códigos padrão TSE) ----
+  // 1=Presidente, 3=Governador, 5=Senador, 6=Dep.Federal, 7=Dep.Estadual, 8=Dep.Distrital
+  const CARGOS = [
+    { cod: 1, nome: "Presidente",            abr: "br", ele: "federal",   cargoAPI: 1 },
+    { cod: 3, nome: "Governador PE",         abr: "pe", ele: "estadual",  cargoAPI: 3 },
+    { cod: 5, nome: "Senador PE (2 vagas)",  abr: "pe", ele: "federal",   cargoAPI: 5 },
+    { cod: 6, nome: "Deputado Federal PE",   abr: "pe", ele: "federal",   cargoAPI: 6 },
+    { cod: 7, nome: "Deputado Estadual PE",  abr: "pe", ele: "estadual",  cargoAPI: 7 },
+  ];
+
+  // ---- parse do EA20 (formato unificado por cargo) ----
+  // Campos do EA20 real (spec TSE): cand[] com nm (nome), n (numero), cc (coligacao/partido),
+  // v/va (votos), pv/pva (percentual), e/situ (situacao: "Eleito", "2º turno" etc.)
+  // Tolerante a variantes (nm|n, pva|pv, v|va) porque o layout exato so e confirmavel no simulado.
+  function parseUnificado(data) {
+    const t = data;
+    const aptos = t?.a?.aptos ?? t?.a?.a ?? null;
+    const comp = t?.a?.comparec ?? t?.a?.c ?? null;
+    const abst = t?.a?.abst ?? null;
+    const validos = t?.v?.validos ?? t?.v?.v ?? null;
+    const total = { aptos, comparecimento: comp, abst, validos,
+                    brancos: t?.v?.brancos ?? t?.v?.b ?? null, nulos: t?.v?.nulos ?? t?.v?.n ?? null };
+    const cands = (t?.cand || []).map(c => {
+      const nome = c.nm || c.n || "?";
+      const perc = c.pva ?? c.pv ?? c.p ?? null;
+      const votos = c.v ?? c.va ?? c.nva ?? null;
+      const situ = c.e || c.situ || c.cc || "";
+      const partido = c.cc && c.e ? c.cc : (c.cc || c.partido || ""); // cc pode ser coligacao
+      return {
+        nome, numero: c.n2 || c.num || null, partido,
+        votos, perc,
+        situ, eleito: /eleito/i.test(situ) && !/nao/i.test(situ),
+      };
+    });
+    return { total, cands, atualizado: `${t?.dg || ""} ${t?.hg || ""}`.trim() };
+  }
+
+  // ---- ciclo de polling ----
+  let timer = null;
+  let rodando = false;
+  const listeners = [];
+
+  async function tick() {
+    if (rodando) return;
+    rodando = true;
+    try {
+      const resultados = {};
+      for (const cargo of CARGOS) {
+        const ele = cfg.eleicoes[cargo.ele];
+        const r = await getJSON(urlUnificado(cargo.abr, cargo.cod, ele));
+        if (r.changed && r.data) {
+          resultados[cargo.cod] = parseUnificado(r.data);
+        }
+      }
+      if (Object.keys(resultados).length) {
+        listeners.forEach(fn => fn(resultados));
+      }
+    } catch (e) {
+      listeners.forEach(fn => fn(null, e));
+    } finally {
+      rodando = false;
+    }
+  }
+
+  return {
+    CARGOS, cfg,
+    loadConfig,
+    urlUnificado, urlAcomp, parseUnificado, getJSON,
+    iniciar(intervaloMs = 10000, onChange) {
+      if (timer) clearInterval(timer);
+      if (onChange) listeners.push(onChange);
+      tick();
+      timer = setInterval(tick, intervaloMs);
+    },
+    parar() { if (timer) clearInterval(timer); timer = null; },
+  };
+})();
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=v=>v==null?"—":v.toLocaleString("pt-BR");
+const fmtPct=v=>v==null?"—":(v.toLocaleString("pt-BR",{minimumFractionDigits:2,maximumFractionDigits:2}))+"%";
+const PALETA=["#f5b942","#e05252","#4f8ef7","#2ea86e","#9b59d0","#e0762e","#5bc8d9"];
+
+// ---- nav ----
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on"));
+  document.querySelectorAll("section").forEach(x=>x.classList.remove("on"));
+  b.classList.add("on"); $("s"+b.dataset.c).classList.add("on");
+});
+
+// ---- render de uma corrida (cargo) ----
+function renderCargo(cod, dados, titulo, vagas){
+  const k=$(  "k"+cod), race=$("race"+cod);
+  if(!dados){ k.innerHTML=""; race.innerHTML="<p style='color:var(--mut)'>Aguardando dados…</p>"; return; }
+  const t=dados.total;
+  const perc= t.comparecimento && t.aptos ? (t.comparecimento/t.aptos*100) : null;
+  const tot=t.comparecimento||0, ap=t.validos||0;
+  const tPct= tot? (ap/tot*100):null;
+  k.innerHTML=`
+  <div class="card"><h3>Comparecimento</h3><div class="big ${perc>75?'ok':''}">${fmtPct(perc)}</div><div class="sub">${fmt(t.comparecimento)} de ${fmt(t.aptos)}</div></div>
+  <div class="card"><h3>Abstenções</h3><div class="big">${fmtPct(t.aptos&&t.abst? t.abst/t.aptos*100:null)}</div><div class="sub">${fmt(t.abst)}</div></div>
+  <div class="card"><h3>Validos</h3><div class="big">${fmtPct(tPct)}</div><div class="sub">${fmt(ap)} votos</div></div>
+  <div class="card"><h3>Brancos/Nulos</h3><div class="big">${fmt((t.brancos||0)+(t.nulos||0))}</div><div class="sub">${fmt(t.brancos)} brancos · ${fmt(t.nulos)} nulos</div></div>`;
+  // barras de composição
+  const br=100;
+  race.innerHTML=`<h2>${titulo}${vagas>1?` <small style="color:var(--mut)">(${vagas} vagas)</small>`:""}</h2>
+  <div class="meta">Atualizado: ${dados.atualizado||"—"}</div>
+  <div class="pctbar">${dados.cands.map((c,i)=>`<i style="width:${c.perc||0}%;background:${PALETA[i%7]}"></i>`).join("")}</div>
+  ${dados.cands.map((c,i)=>`
+  <div class="crow ${i<2?"l"+(i+1):""} ${c.eleito?"eleito":""}">
+    <div class="num">${c.numero||"—"}</div>
+    <div class="nm"><b>${c.nome}${c.eleito?`<span class="tag">ELEITO</span>`:""}</b><small>${c.partido||""}</small></div>
+    <div class="pct"><b>${fmtPct(c.perc)}</b><small>${fmt(c.votos)} votos</small></div>
+    <div class="bar"><i style="width:${Math.min(100,c.perc||0)*2}%"></i></div>
+  </div>`).join("")}`;
+}
+
+// ---- fonte: FIXTURE (demo) ou TSE (real) ----
+const NOME_CARGO={1:"Presidente — Brasil",3:"Governador — Pernambuco",5:"Senador — Pernambuco",6:"Deputado Federal — PE",7:"Deputado Estadual — PE"};
+const VAGAS={1:1,3:1,5:2,6:25,7:25};
+
+function renderTudo(fonte){
+  for(const c of [1,3,5,6,7]){
+    const d = fonte[c];
+    const dados = d ? TSE.parseUnificado(d) : null;
+    renderCargo(c, dados, NOME_CARGO[c], VAGAS[c]);
+  }
+}
+
+function tickDemo(){
+  const f=JSON.parse(JSON.stringify(FIXTURE));
+  // simula evolucao de apuracao a cada tick (para visual vivo)
+  for(const cod in f){
+    const prog=0.35+0.6*Math.random();
+    f[cod].cand.forEach(c=>{ c.v=Math.round(c.v*prog); c.pva=+(c.pva).toFixed(2); });
+  }
+  renderTudo(f);
+  $("liveTxt").textContent="DEMONSTRAÇÃO";
+  $("clock").textContent=new Date().toLocaleTimeString("pt-BR");
+}
+
+function tickReal(){
+  TSE.iniciar(10000,(res,err)=>{
+    if(err){ $("liveTxt").textContent="ERRO DE CONEXÃO"; $("live").classList.remove("on"); return; }
+    if(res){ renderTudo(res); $("liveTxt").textContent="AO VIVO · TSE"; $("live").classList.add("on"); }
+    $("clock").textContent=new Date().toLocaleTimeString("pt-BR");
+  });
+}
+
+let modoDemo=true, timer=null;
+function aplicarModo(){
+  clearInterval(timer);
+  if(modoDemo){ timer=setInterval(tickDemo,10000); tickDemo(); }
+  else tickReal();
+}
+$("ckDemo").onchange=e=>{ modoDemo=e.target.checked; aplicarModo(); };
+$("aviso").style.display = modoDemo ? "" : "none";
+$("ckDemo").checked && $("aviso").style.setProperty("display","");
+aplicarModo();
+</script>
+</body>
+</html>
