@@ -83,8 +83,13 @@ footer{max-width:1120px;margin:26px auto 40px;padding:0 22px;color:var(--mut);fo
 <section id="s7"><div class="kpis" id="k7"></div><div class="race" id="race7"></div></section>
 <div class="note" id="aviso">
 <b>Modo demonstração:</b> os números exibidos são fictícios (simulação) — o painel está pronto para conectar ao TSE.
-No dia 04/10/2026: desmarque "demonstração" (ou edite <code>cfg.ambiente</code> em tse.js) e os dados reais entram no lugar, atualizando a cada 10s.
-Fonte oficial: <a style="color:var(--acc)" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">resultados.tse.jus.br</a> (arquivos JSON de divulgação, acesso público).
+No dia 04/10/2026: desmarque "demonstração" e os dados reais entram, atualizando a cada 10s.
+<b>Se aparecer "ERRO DE CONEXÃO":</b> o TSE bloqueou acesso externo direto (CORS). O painel tenta automaticamente um proxy público; se ainda assim falhar, use o seu próprio proxy:
+<br><code style="color:var(--acc)">python3 proxy_tse.py 8765</code> e no campo abaixo ponha <code style="color:var(--acc)">http://SEU_IP:8765</code> (guarda no navegador; painel passa a usá-lo como camada 3).
+<br><input type="text" id="proxyBase" placeholder="http://IP:8765 (proxy próprio, opcional)" style="margin-top:6px;width:280px;background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:6px;padding:6px 8px;font-size:12px">
+<button id="btProxy" style="margin-left:6px;padding:6px 10px;font-size:12px;background:var(--panel2);color:var(--tx);border:1px solid var(--line);border-radius:6px;cursor:pointer">salvar proxy</button>
+<span id="proxyOk" style="color:var(--ok);font-size:11px;margin-left:6px"></span>
+Fonte oficial: <a style="color:var(--acc)" href="https://resultados.tse.jus.br" target="_blank" rel="noopener">resultados.tse.jus.br</a>.
 </div>
 </main>
 <footer>
@@ -570,6 +575,22 @@ const TSE = (() => {
     sim:    "https://resultados-sim.tse.jus.br/oficial",
   };
 
+  // ---- FAILOVER em 3 camadas (decidido em runtime, sem intervencao) ----
+  // 1) direto na CDN do TSE (funciona se o TSE enviar Access-Control-Allow-Origin)
+  // 2) api.allorigins.win (proxy CORS publico gratuito; prefixa o URL alvo)
+  // 3) proxy proprio (proxy_tse.py) — subir com: python3 proxy_tse.py 8765
+  //    e setar PROXY_BASE no painel; mantem ETag/If-None-Match de ponta a ponta.
+  const FALLBACKS = [
+    u => u,                                                                        // camada 1: direto
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,            // camada 2: publico
+  ];
+  let PROXY_BASE = "";
+  try { PROXY_BASE = localStorage.getItem("tse_proxy_base") || ""; } catch (e) {}  // camada 3
+  if (PROXY_BASE) {
+    FALLBACKS.push(u => u.replace("https://resultados.tse.jus.br", PROXY_BASE + "/tse"));
+  }
+  let camada = 0; // indice da camada atual
+
   // ---- estado ----
   const cfg = {
     ambiente: "oficial",      // trocar para "sim" nos simulados do TSE
@@ -580,18 +601,32 @@ const TSE = (() => {
   };
   const etags = new Map();     // url -> etag
 
-  // ---- helper HTTP ----
+  // ---- helper HTTP com failover ----
   async function getJSON(url) {
     const headers = { "User-Agent": "painel-apuracao-pe/1.0" };
     const et = etags.get(url);
     if (et) headers["If-None-Match"] = et;
-    const r = await fetch(url, { headers, cache: "no-store" });
-    if (r.status === 304) return { unchanged: true };
-    if (r.status === 404) return { notfound: true };
-    if (!r.ok) throw new Error(`HTTP ${r.status} em ${url}`);
-    const etag = r.headers.get("ETag");
-    if (etag) etags.set(url, etag);
-    return { data: await r.json(), changed: true };
+    const tentativas = [];
+    for (let k = camada; k < FALLBACKS.length; k++) tentativas.push(k);
+    // se a camada atual falhar por rede, tenta as seguintes; depois volta pra lista completa
+    for (const k of tentativas) {
+      try {
+        const r = await fetch(FALLBACKS[k](url), { headers, cache: "no-store" });
+        if (r.status === 304) return { unchanged: true };
+        if (r.status === 404) return { notfound: true };
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const etag = r.headers.get("ETag");
+        if (etag) etags.set(url, etag);
+        camada = k; // fixa a camada que funcionou
+        return { data: await r.json(), changed: true };
+      } catch (e) {
+        if (e.message && e.message.startsWith("HTTP 40")) return { notfound: true };
+        // erro de rede/CORS: proxima camada
+        continue;
+      }
+    }
+    camada = 0;
+    throw new Error("todas as camadas falharam (direto, allorigins, proxy)");
   }
 
   // ---- config (EA11): descobre ciclo/codigos reais; fallback p/ valores documentados ----
@@ -783,6 +818,16 @@ function aplicarModo(){
 $("ckDemo").onchange=e=>{ modoDemo=e.target.checked; aplicarModo(); };
 $("aviso").style.display = modoDemo ? "" : "none";
 $("ckDemo").checked && $("aviso").style.setProperty("display","");
+// ---- seletor de proxy (camada 3) ----
+const storage = (typeof localStorage !== "undefined") ? localStorage : { getItem: () => null, setItem(){}, removeItem(){} };
+if($("btProxy")){
+  $("proxyBase").value = storage.getItem("tse_proxy_base") || "";
+  $("btProxy").onclick=()=>{
+    const v=$("proxyBase").value.trim().replace(/\/$/,"");
+    if(v){ storage.setItem("tse_proxy_base", v); $("proxyOk").textContent="salvo — recarregue a página"; }
+    else { storage.removeItem("tse_proxy_base"); $("proxyOk").textContent="removido — recarregue"; }
+  };
+}
 aplicarModo();
 </script>
 </body>
