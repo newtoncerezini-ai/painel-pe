@@ -71,7 +71,6 @@ footer{max-width:1120px;margin:26px auto 40px;padding:0 22px;color:var(--mut);fo
 <button data-c="5">🏛 Senador PE</button>
 <button data-c="6">📋 Dep. Federal PE</button>
 <button data-c="7">📋 Dep. Estadual PE</button>
-<button onclick="location.href='apuracao-rd-pe.html'" style="background:#1a2a44;color:#f5b942;border-color:#f5b942">🗺 Por Região de Desenvolvimento →</button>
 </nav>
 <main>
 <section id="s1" class="on">
@@ -659,6 +658,14 @@ const TSE = (() => {
   function urlAcomp(abr, eleicao) {
     return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-e${eleicao}-ab.json`;
   }
+  // EA20 municipal (padrao 2022 confirmado: .../dados/pe/26140/c026140-e000544-u.mun.js)
+  // prefixo do arquivo: "c" + uf(2d) + cod_mun(5d); extensao .mun.js no 2022 — manteremos
+  // o sufixo -u.json e um fallback .mun.js, decidido no loadConfig quando o simulado abrir.
+  function urlUnificadoMun(uf, cargo, codMun, eleicao) {
+    const el = eleicao || cfg.eleicoes[cargo === 1 ? "federal" : "estadual"];
+    const mun = String(codMun).padStart(5, "0");
+    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${uf}/${mun}/c${uf}${mun}-e${el}-u.mun.js`;
+  }
 
   // ---- cargos de interesse (códigos padrão TSE) ----
   // 1=Presidente, 3=Governador, 5=Senador, 6=Dep.Federal, 7=Dep.Estadual, 8=Dep.Distrital
@@ -727,7 +734,7 @@ const TSE = (() => {
   return {
     CARGOS, cfg,
     loadConfig,
-    urlUnificado, urlAcomp, parseUnificado, getJSON,
+    urlUnificado, urlAcomp, urlUnificadoMun, parseUnificado, getJSON,
     iniciar(intervaloMs = 10000, onChange) {
       if (timer) clearInterval(timer);
       if (onChange) listeners.push(onChange);
