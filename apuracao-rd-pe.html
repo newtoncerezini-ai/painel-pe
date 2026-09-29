@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apuração 2026 — PE por Região de Desenvolvimento</title>
+<script>
+const RD_PE={"rds":{"Agreste Central":["AGRESTINA","ALAGOINHA","ALTINHO","BARRA DE GUABIRABA","BELO JARDIM","BEZERROS","BONITO","BREJO DA MADRE DE DEUS","CACHOEIRINHA","CAMOCIM DE SAO FELIX","CARUARU","CUPIRA","GRAVATA","IBIRAJUBA","JATAUBA","LAGOA DOS GATOS","PANELAS","PESQUEIRA","POCAO","RIACHO DAS ALMAS","SAIRE","SANHARO","SAO BENTO DO UNA","SAO CAITANO","SAO JOAQUIM DO MONTE","TACAIMBO"],"Agreste Meridional":["AGUAS BELAS","ANGELIM","BOM CONSELHO","BREJAO","BUIQUE","CAETES","CALCADO","CANHOTINHO","CAPOEIRAS","CORRENTES","GARANHUNS","IATI","ITAIBA","JUCATI","JUPI","JUREMA","LAGOA DO OURO","LAJEDO","PALMEIRINA","PARANATAMA","PEDRA","SALOA","SAO JOAO","TEREZINHA","TUPANATINGA","VENTUROSA"],"Agreste Setentrional":["BOM JARDIM","CASINHAS","CUMARU","FEIRA NOVA","FREI MIGUELINHO","JOAO ALFREDO","LIMOEIRO","MACHADOS","OROBO","PASSIRA","SALGADINHO","SANTA CRUZ DO CAPIBARIBE","SANTA MARIA DO CAMBUCA","SAO VICENTE FERRER","SURUBIM","TAQUARITINGA DO NORTE","TORITAMA","VERTENTE DO LERIO","VERTENTES"],"Mata Norte":["ALIANCA","BUENOS AIRES","CAMUTANGA","CARPINA","CHA DE ALEGRIA","CONDADO","FERREIROS","GLORIA DO GOITA","GOIANA","ITAMBE","ITAQUITINGA","LAGOA DO CARRO","LAGOA DE ITAENGA","MACAPARANA","NAZARE DA MATA","PAUDALHO","TIMBAUBA","TRACUNHAEM","VICENCIA"],"Mata Sul":["AGUA PRETA","AMARAJI","BARREIROS","BELEM DE MARIA","CATENDE","CHA GRANDE","CORTES","ESCADA","GAMELEIRA","JAQUEIRA","JOAQUIM NABUCO","MARAIAL","PALMARES","POMBOS","PRIMAVERA","QUIPAPA","RIBEIRAO","RIO FORMOSO","SAO BENEDITO DO SUL","SAO JOSE DA COROA GRANDE","SIRINHAEM","TAMANDARE","VITORIA DE SANTO ANTAO","XEXEU"],"Região Metropolitana do Recife":["CAMARAGIBE","FERNANDO DE NORONHA","OLINDA","RECIFE","ABREU E LIMA","ARACOIABA","IGARASSU","ILHA DE ITAMARACA","ITAPISSUMA","PAULISTA","CABO DE SANTO AGOSTINHO","IPOJUCA","JABOATAO DOS GUARARAPES","MORENO","SAO LOURENCO DA MATA"],"Sertão do Araripe":["ARARIPINA","BODOCO","EXU","GRANITO","IPUBI","MOREILANDIA","OURICURI","SANTA CRUZ","SANTA FILOMENA","TRINDADE"],"Sertão Central":["CEDRO","MIRANDIBA","PARNAMIRIM","SALGUEIRO","SAO JOSE DO BELMONTE","SERRITA","TERRA NOVA","VERDEJANTE"],"Sertão de Itaparica":["BELEM DO SAO FRANCISCO","CARNAUBEIRA DA PENHA","FLORESTA","ITACURUBA","JATOBA","PETROLANDIA","TACARATU"],"Sertão do Moxotó":["ARCOVERDE","BETANIA","CUSTODIA","IBIMIRIM","INAJA","MANARI","SERTANIA"],"Sertão do Pajeú":["AFOGADOS DA INGAZEIRA","BREJINHO","CALUMBI","CARNAIBA","FLORES","IGUARACY","INGAZEIRA","ITAPETIM","QUIXABA","SANTA CRUZ DA BAIXA VERDE","SANTA TEREZINHA","SAO JOSE DO EGITO","SERRA TALHADA","SOLIDAO","TABIRA","TRIUNFO","TUPARETAMA"],"Sertão do São Francisco":["AFRANIO","CABROBO","DORMENTES","LAGOA GRANDE","OROCO","PETROLINA","SANTA MARIA DA BOA VISTA"]},"mapa":{"AGRESTINA":"Agreste Central","ALAGOINHA":"Agreste Central","ALTINHO":"Agreste Central","BARRA DE GUABIRABA":"Agreste Central","BELO JARDIM":"Agreste Central","BEZERROS":"Agreste Central","BONITO":"Agreste Central","BREJO DA MADRE DE DEUS":"Agreste Central","CACHOEIRINHA":"Agreste Central","CAMOCIM DE SAO FELIX":"Agreste Central","CARUARU":"Agreste Central","CUPIRA":"Agreste Central","GRAVATA":"Agreste Central","IBIRAJUBA":"Agreste Central","JATAUBA":"Agreste Central","LAGOA DOS GATOS":"Agreste Central","PANELAS":"Agreste Central","PESQUEIRA":"Agreste Central","POCAO":"Agreste Central","RIACHO DAS ALMAS":"Agreste Central","SAIRE":"Agreste Central","SANHARO":"Agreste Central","SAO BENTO DO UNA":"Agreste Central","SAO CAITANO":"Agreste Central","SAO JOAQUIM DO MONTE":"Agreste Central","TACAIMBO":"Agreste Central","AGUAS BELAS":"Agreste Meridional","ANGELIM":"Agreste Meridional","BOM CONSELHO":"Agreste Meridional","BREJAO":"Agreste Meridional","BUIQUE":"Agreste Meridional","CAETES":"Agreste Meridional","CALCADO":"Agreste Meridional","CANHOTINHO":"Agreste Meridional","CAPOEIRAS":"Agreste Meridional","CORRENTES":"Agreste Meridional","GARANHUNS":"Agreste Meridional","IATI":"Agreste Meridional","ITAIBA":"Agreste Meridional","JUCATI":"Agreste Meridional","JUPI":"Agreste Meridional","JUREMA":"Agreste Meridional","LAGOA DO OURO":"Agreste Meridional","LAJEDO":"Agreste Meridional","PALMEIRINA":"Agreste Meridional","PARANATAMA":"Agreste Meridional","PEDRA":"Agreste Meridional","SALOA":"Agreste Meridional","SAO JOAO":"Agreste Meridional","TEREZINHA":"Agreste Meridional","TUPANATINGA":"Agreste Meridional","VENTUROSA":"Agreste Meridional","BOM JARDIM":"Agreste Setentrional","CASINHAS":"Agreste Setentrional","CUMARU":"Agreste Setentrional","FEIRA NOVA":"Agreste Setentrional","FREI MIGUELINHO":"Agreste Setentrional","JOAO ALFREDO":"Agreste Setentrional","LIMOEIRO":"Agreste Setentrional","MACHADOS":"Agreste Setentrional","OROBO":"Agreste Setentrional","PASSIRA":"Agreste Setentrional","SALGADINHO":"Agreste Setentrional","SANTA CRUZ DO CAPIBARIBE":"Agreste Setentrional","SANTA MARIA DO CAMBUCA":"Agreste Setentrional","SAO VICENTE FERRER":"Agreste Setentrional","SURUBIM":"Agreste Setentrional","TAQUARITINGA DO NORTE":"Agreste Setentrional","TORITAMA":"Agreste Setentrional","VERTENTE DO LERIO":"Agreste Setentrional","VERTENTES":"Agreste Setentrional","ALIANCA":"Mata Norte","BUENOS AIRES":"Mata Norte","CAMUTANGA":"Mata Norte","CARPINA":"Mata Norte","CHA DE ALEGRIA":"Mata Norte","CONDADO":"Mata Norte","FERREIROS":"Mata Norte","GLORIA DO GOITA":"Mata Norte","GOIANA":"Mata Norte","ITAMBE":"Mata Norte","ITAQUITINGA":"Mata Norte","LAGOA DO CARRO":"Mata Norte","LAGOA DE ITAENGA":"Mata Norte","MACAPARANA":"Mata Norte","NAZARE DA MATA":"Mata Norte","PAUDALHO":"Mata Norte","TIMBAUBA":"Mata Norte","TRACUNHAEM":"Mata Norte","VICENCIA":"Mata Norte","AGUA PRETA":"Mata Sul","AMARAJI":"Mata Sul","BARREIROS":"Mata Sul","BELEM DE MARIA":"Mata Sul","CATENDE":"Mata Sul","CHA GRANDE":"Mata Sul","CORTES":"Mata Sul","ESCADA":"Mata Sul","GAMELEIRA":"Mata Sul","JAQUEIRA":"Mata Sul","JOAQUIM NABUCO":"Mata Sul","MARAIAL":"Mata Sul","PALMARES":"Mata Sul","POMBOS":"Mata Sul","PRIMAVERA":"Mata Sul","QUIPAPA":"Mata Sul","RIBEIRAO":"Mata Sul","RIO FORMOSO":"Mata Sul","SAO BENEDITO DO SUL":"Mata Sul","SAO JOSE DA COROA GRANDE":"Mata Sul","SIRINHAEM":"Mata Sul","TAMANDARE":"Mata Sul","VITORIA DE SANTO ANTAO":"Mata Sul","XEXEU":"Mata Sul","CAMARAGIBE":"Região Metropolitana do Recife","FERNANDO DE NORONHA":"Região Metropolitana do Recife","OLINDA":"Região Metropolitana do Recife","RECIFE":"Região Metropolitana do Recife","ABREU E LIMA":"Região Metropolitana do Recife","ARACOIABA":"Região Metropolitana do Recife","IGARASSU":"Região Metropolitana do Recife","ILHA DE ITAMARACA":"Região Metropolitana do Recife","ITAPISSUMA":"Região Metropolitana do Recife","PAULISTA":"Região Metropolitana do Recife","CABO DE SANTO AGOSTINHO":"Região Metropolitana do Recife","IPOJUCA":"Região Metropolitana do Recife","JABOATAO DOS GUARARAPES":"Região Metropolitana do Recife","MORENO":"Região Metropolitana do Recife","SAO LOURENCO DA MATA":"Região Metropolitana do Recife","ARARIPINA":"Sertão do Araripe","BODOCO":"Sertão do Araripe","EXU":"Sertão do Araripe","GRANITO":"Sertão do Araripe","IPUBI":"Sertão do Araripe","MOREILANDIA":"Sertão do Araripe","OURICURI":"Sertão do Araripe","SANTA CRUZ":"Sertão do Araripe","SANTA FILOMENA":"Sertão do Araripe","TRINDADE":"Sertão do Araripe","CEDRO":"Sertão Central","MIRANDIBA":"Sertão Central","PARNAMIRIM":"Sertão Central","SALGUEIRO":"Sertão Central","SAO JOSE DO BELMONTE":"Sertão Central","SERRITA":"Sertão Central","TERRA NOVA":"Sertão Central","VERDEJANTE":"Sertão Central","BELEM DO SAO FRANCISCO":"Sertão de Itaparica","CARNAUBEIRA DA PENHA":"Sertão de Itaparica","FLORESTA":"Sertão de Itaparica","ITACURUBA":"Sertão de Itaparica","JATOBA":"Sertão de Itaparica","PETROLANDIA":"Sertão de Itaparica","TACARATU":"Sertão de Itaparica","ARCOVERDE":"Sertão do Moxotó","BETANIA":"Sertão do Moxotó","CUSTODIA":"Sertão do Moxotó","IBIMIRIM":"Sertão do Moxotó","INAJA":"Sertão do Moxotó","MANARI":"Sertão do Moxotó","SERTANIA":"Sertão do Moxotó","AFOGADOS DA INGAZEIRA":"Sertão do Pajeú","BREJINHO":"Sertão do Pajeú","CALUMBI":"Sertão do Pajeú","CARNAIBA":"Sertão do Pajeú","FLORES":"Sertão do Pajeú","IGUARACY":"Sertão do Pajeú","INGAZEIRA":"Sertão do Pajeú","ITAPETIM":"Sertão do Pajeú","QUIXABA":"Sertão do Pajeú","SANTA CRUZ DA BAIXA VERDE":"Sertão do Pajeú","SANTA TEREZINHA":"Sertão do Pajeú","SAO JOSE DO EGITO":"Sertão do Pajeú","SERRA TALHADA":"Sertão do Pajeú","SOLIDAO":"Sertão do Pajeú","TABIRA":"Sertão do Pajeú","TRIUNFO":"Sertão do Pajeú","TUPARETAMA":"Sertão do Pajeú","AFRANIO":"Sertão do São Francisco","CABROBO":"Sertão do São Francisco","DORMENTES":"Sertão do São Francisco","LAGOA GRANDE":"Sertão do São Francisco","OROCO":"Sertão do São Francisco","PETROLINA":"Sertão do São Francisco","SANTA MARIA DA BOA VISTA":"Sertão do São Francisco"},"fonte":"Governo de Pernambuco — Lista de Municípios por Região de Desenvolvimento (cultura.pe.gov.br, 2022)"};
+
+const MUNS_PE=[{"nome":"ABREU E LIMA","codigo":2600054,"nome_lindo":"Abreu e Lima"},{"nome":"AFOGADOS DA INGAZEIRA","codigo":2600104,"nome_lindo":"Afogados da Ingazeira"},{"nome":"AFRANIO","codigo":2600203,"nome_lindo":"Afrânio"},{"nome":"AGRESTINA","codigo":2600302,"nome_lindo":"Agrestina"},{"nome":"AGUA PRETA","codigo":2600401,"nome_lindo":"Água Preta"},{"nome":"AGUAS BELAS","codigo":2600500,"nome_lindo":"Águas Belas"},{"nome":"ALAGOINHA","codigo":2600609,"nome_lindo":"Alagoinha"},{"nome":"ALIANCA","codigo":2600708,"nome_lindo":"Aliança"},{"nome":"ALTINHO","codigo":2600807,"nome_lindo":"Altinho"},{"nome":"AMARAJI","codigo":2600906,"nome_lindo":"Amaraji"},{"nome":"ANGELIM","codigo":2601003,"nome_lindo":"Angelim"},{"nome":"ARACOIABA","codigo":2601052,"nome_lindo":"Araçoiaba"},{"nome":"ARARIPINA","codigo":2601102,"nome_lindo":"Araripina"},{"nome":"ARCOVERDE","codigo":2601201,"nome_lindo":"Arcoverde"},{"nome":"BARRA DE GUABIRABA","codigo":2601300,"nome_lindo":"Barra de Guabiraba"},{"nome":"BARREIROS","codigo":2601409,"nome_lindo":"Barreiros"},{"nome":"BELEM DE MARIA","codigo":2601508,"nome_lindo":"Belém de Maria"},{"nome":"BELEM DO SAO FRANCISCO","codigo":2601607,"nome_lindo":"Belém do São Francisco"},{"nome":"BELO JARDIM","codigo":2601706,"nome_lindo":"Belo Jardim"},{"nome":"BETANIA","codigo":2601805,"nome_lindo":"Betânia"},{"nome":"BEZERROS","codigo":2601904,"nome_lindo":"Bezerros"},{"nome":"BODOCO","codigo":2602001,"nome_lindo":"Bodocó"},{"nome":"BOM CONSELHO","codigo":2602100,"nome_lindo":"Bom Conselho"},{"nome":"BOM JARDIM","codigo":2602209,"nome_lindo":"Bom Jardim"},{"nome":"BONITO","codigo":2602308,"nome_lindo":"Bonito"},{"nome":"BREJAO","codigo":2602407,"nome_lindo":"Brejão"},{"nome":"BREJINHO","codigo":2602506,"nome_lindo":"Brejinho"},{"nome":"BREJO DA MADRE DE DEUS","codigo":2602605,"nome_lindo":"Brejo da Madre de Deus"},{"nome":"BUENOS AIRES","codigo":2602704,"nome_lindo":"Buenos Aires"},{"nome":"BUIQUE","codigo":2602803,"nome_lindo":"Buíque"},{"nome":"CABO DE SANTO AGOSTINHO","codigo":2602902,"nome_lindo":"Cabo de Santo Agostinho"},{"nome":"CABROBO","codigo":2603009,"nome_lindo":"Cabrobó"},{"nome":"CACHOEIRINHA","codigo":2603108,"nome_lindo":"Cachoeirinha"},{"nome":"CAETES","codigo":2603207,"nome_lindo":"Caetés"},{"nome":"CALCADO","codigo":2603306,"nome_lindo":"Calçado"},{"nome":"CALUMBI","codigo":2603405,"nome_lindo":"Calumbi"},{"nome":"CAMARAGIBE","codigo":2603454,"nome_lindo":"Camaragibe"},{"nome":"CAMOCIM DE SAO FELIX","codigo":2603504,"nome_lindo":"Camocim de São Félix"},{"nome":"CAMUTANGA","codigo":2603603,"nome_lindo":"Camutanga"},{"nome":"CANHOTINHO","codigo":2603702,"nome_lindo":"Canhotinho"},{"nome":"CAPOEIRAS","codigo":2603801,"nome_lindo":"Capoeiras"},{"nome":"CARNAIBA","codigo":2603900,"nome_lindo":"Carnaíba"},{"nome":"CARNAUBEIRA DA PENHA","codigo":2603926,"nome_lindo":"Carnaubeira da Penha"},{"nome":"CARPINA","codigo":2604007,"nome_lindo":"Carpina"},{"nome":"CARUARU","codigo":2604106,"nome_lindo":"Caruaru"},{"nome":"CASINHAS","codigo":2604155,"nome_lindo":"Casinhas"},{"nome":"CATENDE","codigo":2604205,"nome_lindo":"Catende"},{"nome":"CEDRO","codigo":2604304,"nome_lindo":"Cedro"},{"nome":"CHA DE ALEGRIA","codigo":2604403,"nome_lindo":"Chã de Alegria"},{"nome":"CHA GRANDE","codigo":2604502,"nome_lindo":"Chã Grande"},{"nome":"CONDADO","codigo":2604601,"nome_lindo":"Condado"},{"nome":"CORRENTES","codigo":2604700,"nome_lindo":"Correntes"},{"nome":"CORTES","codigo":2604809,"nome_lindo":"Cortês"},{"nome":"CUMARU","codigo":2604908,"nome_lindo":"Cumaru"},{"nome":"CUPIRA","codigo":2605004,"nome_lindo":"Cupira"},{"nome":"CUSTODIA","codigo":2605103,"nome_lindo":"Custódia"},{"nome":"DORMENTES","codigo":2605152,"nome_lindo":"Dormentes"},{"nome":"ESCADA","codigo":2605202,"nome_lindo":"Escada"},{"nome":"EXU","codigo":2605301,"nome_lindo":"Exu"},{"nome":"FEIRA NOVA","codigo":2605400,"nome_lindo":"Feira Nova"},{"nome":"FERNANDO DE NORONHA","codigo":2605459,"nome_lindo":"Fernando de Noronha"},{"nome":"FERREIROS","codigo":2605509,"nome_lindo":"Ferreiros"},{"nome":"FLORES","codigo":2605608,"nome_lindo":"Flores"},{"nome":"FLORESTA","codigo":2605707,"nome_lindo":"Floresta"},{"nome":"FREI MIGUELINHO","codigo":2605806,"nome_lindo":"Frei Miguelinho"},{"nome":"GAMELEIRA","codigo":2605905,"nome_lindo":"Gameleira"},{"nome":"GARANHUNS","codigo":2606002,"nome_lindo":"Garanhuns"},{"nome":"GLORIA DO GOITA","codigo":2606101,"nome_lindo":"Glória do Goitá"},{"nome":"GOIANA","codigo":2606200,"nome_lindo":"Goiana"},{"nome":"GRANITO","codigo":2606309,"nome_lindo":"Granito"},{"nome":"GRAVATA","codigo":2606408,"nome_lindo":"Gravatá"},{"nome":"IATI","codigo":2606507,"nome_lindo":"Iati"},{"nome":"IBIMIRIM","codigo":2606606,"nome_lindo":"Ibimirim"},{"nome":"IBIRAJUBA","codigo":2606705,"nome_lindo":"Ibirajuba"},{"nome":"IGARASSU","codigo":2606804,"nome_lindo":"Igarassu"},{"nome":"IGUARACY","codigo":2606903,"nome_lindo":"Iguaracy"},{"nome":"INAJA","codigo":2607000,"nome_lindo":"Inajá"},{"nome":"INGAZEIRA","codigo":2607109,"nome_lindo":"Ingazeira"},{"nome":"IPOJUCA","codigo":2607208,"nome_lindo":"Ipojuca"},{"nome":"IPUBI","codigo":2607307,"nome_lindo":"Ipubi"},{"nome":"ITACURUBA","codigo":2607406,"nome_lindo":"Itacuruba"},{"nome":"ITAIBA","codigo":2607505,"nome_lindo":"Itaíba"},{"nome":"ILHA DE ITAMARACA","codigo":2607604,"nome_lindo":"Ilha de Itamaracá"},{"nome":"ITAMBE","codigo":2607653,"nome_lindo":"Itambé"},{"nome":"ITAPETIM","codigo":2607703,"nome_lindo":"Itapetim"},{"nome":"ITAPISSUMA","codigo":2607752,"nome_lindo":"Itapissuma"},{"nome":"ITAQUITINGA","codigo":2607802,"nome_lindo":"Itaquitinga"},{"nome":"JABOATAO DOS GUARARAPES","codigo":2607901,"nome_lindo":"Jaboatão dos Guararapes"},{"nome":"JAQUEIRA","codigo":2607950,"nome_lindo":"Jaqueira"},{"nome":"JATAUBA","codigo":2608008,"nome_lindo":"Jataúba"},{"nome":"JATOBA","codigo":2608057,"nome_lindo":"Jatobá"},{"nome":"JOAO ALFREDO","codigo":2608107,"nome_lindo":"João Alfredo"},{"nome":"JOAQUIM NABUCO","codigo":2608206,"nome_lindo":"Joaquim Nabuco"},{"nome":"JUCATI","codigo":2608255,"nome_lindo":"Jucati"},{"nome":"JUPI","codigo":2608305,"nome_lindo":"Jupi"},{"nome":"JUREMA","codigo":2608404,"nome_lindo":"Jurema"},{"nome":"LAGOA DO CARRO","codigo":2608453,"nome_lindo":"Lagoa do Carro"},{"nome":"LAGOA DE ITAENGA","codigo":2608503,"nome_lindo":"Lagoa de Itaenga"},{"nome":"LAGOA DO OURO","codigo":2608602,"nome_lindo":"Lagoa do Ouro"},{"nome":"LAGOA DOS GATOS","codigo":2608701,"nome_lindo":"Lagoa dos Gatos"},{"nome":"LAGOA GRANDE","codigo":2608750,"nome_lindo":"Lagoa Grande"},{"nome":"LAJEDO","codigo":2608800,"nome_lindo":"Lajedo"},{"nome":"LIMOEIRO","codigo":2608909,"nome_lindo":"Limoeiro"},{"nome":"MACAPARANA","codigo":2609006,"nome_lindo":"Macaparana"},{"nome":"MACHADOS","codigo":2609105,"nome_lindo":"Machados"},{"nome":"MANARI","codigo":2609154,"nome_lindo":"Manari"},{"nome":"MARAIAL","codigo":2609204,"nome_lindo":"Maraial"},{"nome":"MIRANDIBA","codigo":2609303,"nome_lindo":"Mirandiba"},{"nome":"MORENO","codigo":2609402,"nome_lindo":"Moreno"},{"nome":"NAZARE DA MATA","codigo":2609501,"nome_lindo":"Nazaré da Mata"},{"nome":"OLINDA","codigo":2609600,"nome_lindo":"Olinda"},{"nome":"OROBO","codigo":2609709,"nome_lindo":"Orobó"},{"nome":"OROCO","codigo":2609808,"nome_lindo":"Orocó"},{"nome":"OURICURI","codigo":2609907,"nome_lindo":"Ouricuri"},{"nome":"PALMARES","codigo":2610004,"nome_lindo":"Palmares"},{"nome":"PALMEIRINA","codigo":2610103,"nome_lindo":"Palmeirina"},{"nome":"PANELAS","codigo":2610202,"nome_lindo":"Panelas"},{"nome":"PARANATAMA","codigo":2610301,"nome_lindo":"Paranatama"},{"nome":"PARNAMIRIM","codigo":2610400,"nome_lindo":"Parnamirim"},{"nome":"PASSIRA","codigo":2610509,"nome_lindo":"Passira"},{"nome":"PAUDALHO","codigo":2610608,"nome_lindo":"Paudalho"},{"nome":"PAULISTA","codigo":2610707,"nome_lindo":"Paulista"},{"nome":"PEDRA","codigo":2610806,"nome_lindo":"Pedra"},{"nome":"PESQUEIRA","codigo":2610905,"nome_lindo":"Pesqueira"},{"nome":"PETROLANDIA","codigo":2611002,"nome_lindo":"Petrolândia"},{"nome":"PETROLINA","codigo":2611101,"nome_lindo":"Petrolina"},{"nome":"POCAO","codigo":2611200,"nome_lindo":"Poção"},{"nome":"POMBOS","codigo":2611309,"nome_lindo":"Pombos"},{"nome":"PRIMAVERA","codigo":2611408,"nome_lindo":"Primavera"},{"nome":"QUIPAPA","codigo":2611507,"nome_lindo":"Quipapá"},{"nome":"QUIXABA","codigo":2611533,"nome_lindo":"Quixaba"},{"nome":"RECIFE","codigo":2611606,"nome_lindo":"Recife"},{"nome":"RIACHO DAS ALMAS","codigo":2611705,"nome_lindo":"Riacho das Almas"},{"nome":"RIBEIRAO","codigo":2611804,"nome_lindo":"Ribeirão"},{"nome":"RIO FORMOSO","codigo":2611903,"nome_lindo":"Rio Formoso"},{"nome":"SAIRE","codigo":2612000,"nome_lindo":"Sairé"},{"nome":"SALGADINHO","codigo":2612109,"nome_lindo":"Salgadinho"},{"nome":"SALGUEIRO","codigo":2612208,"nome_lindo":"Salgueiro"},{"nome":"SALOA","codigo":2612307,"nome_lindo":"Saloá"},{"nome":"SANHARO","codigo":2612406,"nome_lindo":"Sanharó"},{"nome":"SANTA CRUZ","codigo":2612455,"nome_lindo":"Santa Cruz"},{"nome":"SANTA CRUZ DA BAIXA VERDE","codigo":2612471,"nome_lindo":"Santa Cruz da Baixa Verde"},{"nome":"SANTA CRUZ DO CAPIBARIBE","codigo":2612505,"nome_lindo":"Santa Cruz do Capibaribe"},{"nome":"SANTA FILOMENA","codigo":2612554,"nome_lindo":"Santa Filomena"},{"nome":"SANTA MARIA DA BOA VISTA","codigo":2612604,"nome_lindo":"Santa Maria da Boa Vista"},{"nome":"SANTA MARIA DO CAMBUCA","codigo":2612703,"nome_lindo":"Santa Maria do Cambucá"},{"nome":"SANTA TEREZINHA","codigo":2612802,"nome_lindo":"Santa Terezinha"},{"nome":"SAO BENEDITO DO SUL","codigo":2612901,"nome_lindo":"São Benedito do Sul"},{"nome":"SAO BENTO DO UNA","codigo":2613008,"nome_lindo":"São Bento do Una"},{"nome":"SAO CAITANO","codigo":2613107,"nome_lindo":"São Caitano"},{"nome":"SAO JOAO","codigo":2613206,"nome_lindo":"São João"},{"nome":"SAO JOAQUIM DO MONTE","codigo":2613305,"nome_lindo":"São Joaquim do Monte"},{"nome":"SAO JOSE DA COROA GRANDE","codigo":2613404,"nome_lindo":"São José da Coroa Grande"},{"nome":"SAO JOSE DO BELMONTE","codigo":2613503,"nome_lindo":"São José do Belmonte"},{"nome":"SAO JOSE DO EGITO","codigo":2613602,"nome_lindo":"São José do Egito"},{"nome":"SAO LOURENCO DA MATA","codigo":2613701,"nome_lindo":"São Lourenço da Mata"},{"nome":"SAO VICENTE FERRER","codigo":2613800,"nome_lindo":"São Vicente Férrer"},{"nome":"SERRA TALHADA","codigo":2613909,"nome_lindo":"Serra Talhada"},{"nome":"SERRITA","codigo":2614006,"nome_lindo":"Serrita"},{"nome":"SERTANIA","codigo":2614105,"nome_lindo":"Sertânia"},{"nome":"SIRINHAEM","codigo":2614204,"nome_lindo":"Sirinhaém"},{"nome":"MOREILANDIA","codigo":2614303,"nome_lindo":"Moreilândia"},{"nome":"SOLIDAO","codigo":2614402,"nome_lindo":"Solidão"},{"nome":"SURUBIM","codigo":2614501,"nome_lindo":"Surubim"},{"nome":"TABIRA","codigo":2614600,"nome_lindo":"Tabira"},{"nome":"TACAIMBO","codigo":2614709,"nome_lindo":"Tacaimbó"},{"nome":"TACARATU","codigo":2614808,"nome_lindo":"Tacaratu"},{"nome":"TAMANDARE","codigo":2614857,"nome_lindo":"Tamandaré"},{"nome":"TAQUARITINGA DO NORTE","codigo":2615003,"nome_lindo":"Taquaritinga do Norte"},{"nome":"TEREZINHA","codigo":2615102,"nome_lindo":"Terezinha"},{"nome":"TERRA NOVA","codigo":2615201,"nome_lindo":"Terra Nova"},{"nome":"TIMBAUBA","codigo":2615300,"nome_lindo":"Timbaúba"},{"nome":"TORITAMA","codigo":2615409,"nome_lindo":"Toritama"},{"nome":"TRACUNHAEM","codigo":2615508,"nome_lindo":"Tracunhaém"},{"nome":"TRINDADE","codigo":2615607,"nome_lindo":"Trindade"},{"nome":"TRIUNFO","codigo":2615706,"nome_lindo":"Triunfo"},{"nome":"TUPANATINGA","codigo":2615805,"nome_lindo":"Tupanatinga"},{"nome":"TUPARETAMA","codigo":2615904,"nome_lindo":"Tuparetama"},{"nome":"VENTUROSA","codigo":2616001,"nome_lindo":"Venturosa"},{"nome":"VERDEJANTE","codigo":2616100,"nome_lindo":"Verdejante"},{"nome":"VERTENTE DO LERIO","codigo":2616183,"nome_lindo":"Vertente do Lério"},{"nome":"VERTENTES","codigo":2616209,"nome_lindo":"Vertentes"},{"nome":"VICENCIA","codigo":2616308,"nome_lindo":"Vicência"},{"nome":"VITORIA DE SANTO ANTAO","codigo":2616407,"nome_lindo":"Vitória de Santo Antão"},{"nome":"XEXEU","codigo":2616506,"nome_lindo":"Xexéu"}];
+
+</script>
+<style>
+:root{--bg:#0b1220;--panel:#111b2e;--panel2:#0e1626;--line:#1e2c45;--tx:#e8eef7;--mut:#8ea0b9;--acc:#f5b942;--ok:#2ea86e;--warn:#e0762e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,Segoe UI,Roboto,sans-serif;min-height:100vh}
+header{background:var(--panel);border-bottom:1px solid var(--line);padding:14px 22px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+header h1{font-size:18px;font-weight:800}
+header h1 span{color:var(--acc)}
+a.back{color:var(--mut);font-size:12px;text-decoration:none}
+a.back:hover{color:var(--acc)}
+#status{display:flex;gap:14px;align-items:center;font-size:12px;color:var(--mut)}
+#status .live{display:inline-flex;align-items:center;gap:6px;font-weight:700}
+#status .live i{width:9px;height:9px;border-radius:50%;background:var(--warn);animation:pulse 1.5s infinite}
+#status .live.on i{background:var(--ok)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+nav{display:flex;gap:8px;padding:10px 22px;background:var(--panel2);border-bottom:1px solid var(--line);flex-wrap:wrap;position:sticky;top:57px;z-index:49}
+nav button{background:var(--panel);border:1px solid var(--line);color:var(--mut);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:12.5px;font-weight:600}
+nav button.on{background:var(--acc);color:#0b1220;border-color:var(--acc)}
+main{max-width:1120px;margin:0 auto;padding:18px 22px 70px}
+section{display:none}
+section.on{display:block}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px}
+.rdbar{margin-bottom:14px}
+.rdbar .head{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px}
+.rdbar .head b{font-weight:700}
+.rdbar .head small{color:var(--mut)}
+.rdbar .track{height:20px;background:var(--panel2);border-radius:6px;overflow:hidden;display:flex}
+.rdbar .track i{display:block;height:100%;transition:width .6s}
+.rdbar .sub{font-size:11px;color:var(--mut);margin-top:3px}
+table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+th{color:var(--mut);text-transform:uppercase;font-size:10px;letter-spacing:.04em;text-align:left;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:6px 8px;border-bottom:1px solid rgba(30,44,69,.4)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.hl td{background:rgba(245,185,66,.08);font-weight:600}
+.note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--acc);border-radius:8px;padding:12px 14px;font-size:12.5px;color:var(--mut);margin:14px 0}
+.note b{color:var(--tx)}
+footer{max-width:1120px;margin:26px auto 40px;padding:0 22px;color:var(--mut);font-size:11.5px;line-height:1.6}
+PALETA{}
+</style>
+</head>
+<body>
+<header>
+<h1>Apuração por RD <span>· Pernambuco</span></h1>
+<div id="status">
+<span class="live" id="live"><i></i><span id="liveTxt">DEMONSTRAÇÃO</span></span>
+<span id="clock">—</span>
+<a class="back" href="apuracao-2026.html">← painel principal</a>
+</div>
+</header>
+<nav id="navCargo"></nav>
+<main>
+<section id="s" class="on">
+<div class="grid" style="grid-template-columns:1fr">
+<div class="card"><h3>Liderança por Região de Desenvolvimento — <b id="hDom"></b></h3><div id="rdBars"></div></div>
+</div>
+<div class="card"><h3>Tabela: candidato × RD — <b id="hDom2"></b> (% dos válidos da RD)</h3>
+<table id="t_rd"><thead><tr id="t_rd_head"></tr></thead><tbody></tbody></table></div>
+<div class="note" id="aviso">
+<b>Como funciona:</b> o TSE publica a votação por município; este recorte agrega os 185 municípios de PE nas <b>12 Regiões de Desenvolvimento oficiais da SEPLAG</b>.
+Em modo real (dia 04/10), o painel baixa os 185 arquivos municipais a cada ciclo usando os arquivos de acompanhamento (EA15) para polir só o que mudou — respeitando o limite do TSE.
+Agregação: soma de votos por município pertencente a cada RD.
+</div>
+</section>
+</main>
+<footer>
+<b>Fontes:</b> TSE — Divulgação de Resultados 2026 (JSON por município, pleito 3220 · eleições 6257/6259) · Regionalização: Governo de PE — Lista de Municípios por RD (12 Regiões de Desenvolvimento). Percentuais por RD calculados sobre os votos válidos da própria RD.
+</footer>
+<script>
+// fixture_simulado.js — DEMONSTRAÇÃO no formato EA20 real do TSE
+// Campos: nm=nome, n=numero, cc=coligação, v=votos, pva=% válidos, e=situação (Eleito)
+// Percentuais recalculados = v/validos (consistentes). Lista de proporcionais é parcial (top 15).
+// No dia 04/10: modo real no painel (desmarcar 'demonstração'); simulados do TSE: cfg.ambiente="sim".
+const FIXTURE = {
+ "1": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 155921000,
+   "comparec": 112521000,
+   "abst": 43400000
+  },
+  "v": {
+   "validos": 108432000,
+   "brancos": 2210000,
+   "nulos": 1869000
+  },
+  "cand": [
+   {
+    "nm": "Candidato A",
+    "n": "15",
+    "cc": "Partido X / Federação Alpha",
+    "v": 45231000,
+    "pva": 41.71,
+    "e": ""
+   },
+   {
+    "nm": "Candidato B",
+    "n": "22",
+    "cc": "Partido Y",
+    "v": 31845000,
+    "pva": 29.37,
+    "e": ""
+   },
+   {
+    "nm": "Candidato C",
+    "n": "13",
+    "cc": "Partido Z / Federação Beta",
+    "v": 19764000,
+    "pva": 18.23,
+    "e": ""
+   },
+   {
+    "nm": "Candidato D",
+    "n": "40",
+    "cc": "Partido W",
+    "v": 7892000,
+    "pva": 7.28,
+    "e": ""
+   },
+   {
+    "nm": "Candidato E",
+    "n": "50",
+    "cc": "Partido V",
+    "v": 2480000,
+    "pva": 2.29,
+    "e": ""
+   },
+   {
+    "nm": "Candidato F",
+    "n": "30",
+    "cc": "Partido U",
+    "v": 1120000,
+    "pva": 1.03,
+    "e": ""
+   }
+  ]
+ },
+ "3": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5634000,
+   "brancos": 132000,
+   "nulos": 126000
+  },
+  "cand": [
+   {
+    "nm": "Cand. Governador A",
+    "n": "12",
+    "cc": "Partido G / Coligação Recife Forte",
+    "v": 2142000,
+    "pva": 38.02,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador B",
+    "n": "45",
+    "cc": "Partido H",
+    "v": 1687000,
+    "pva": 29.94,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador C",
+    "n": "15",
+    "cc": "Partido I",
+    "v": 998000,
+    "pva": 17.71,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador D",
+    "n": "25",
+    "cc": "Partido J",
+    "v": 564000,
+    "pva": 10.01,
+    "e": ""
+   },
+   {
+    "nm": "Cand. Governador E",
+    "n": "50",
+    "cc": "Partido K",
+    "v": 243000,
+    "pva": 4.31,
+    "e": ""
+   }
+  ]
+ },
+ "5": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5412000,
+   "brancos": 220000,
+   "nulos": 260000
+  },
+  "cand": [
+   {
+    "nm": "Senador A",
+    "n": "12",
+    "cc": "Partido G",
+    "v": 1923000,
+    "pva": 35.53,
+    "e": ""
+   },
+   {
+    "nm": "Senador B",
+    "n": "45",
+    "cc": "Partido H",
+    "v": 1542000,
+    "pva": 28.49,
+    "e": ""
+   },
+   {
+    "nm": "Senador C",
+    "n": "15",
+    "cc": "Partido I",
+    "v": 901000,
+    "pva": 16.65,
+    "e": ""
+   },
+   {
+    "nm": "Senador D",
+    "n": "25",
+    "cc": "Partido J",
+    "v": 621000,
+    "pva": 11.47,
+    "e": ""
+   },
+   {
+    "nm": "Senador E",
+    "n": "50",
+    "cc": "Partido K",
+    "v": 425000,
+    "pva": 7.85,
+    "e": ""
+   }
+  ]
+ },
+ "6": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5498000,
+   "brancos": 175000,
+   "nulos": 219000
+  },
+  "cand": [
+   {
+    "nm": "Dep. Federal A",
+    "n": "1201",
+    "cc": "Partido G",
+    "v": 187000,
+    "pva": 3.4,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal B",
+    "n": "4501",
+    "cc": "Partido H",
+    "v": 162000,
+    "pva": 2.95,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal C",
+    "n": "1501",
+    "cc": "Partido I",
+    "v": 148000,
+    "pva": 2.69,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal D",
+    "n": "2501",
+    "cc": "Partido J",
+    "v": 121000,
+    "pva": 2.2,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal E",
+    "n": "5001",
+    "cc": "Partido K",
+    "v": 98400,
+    "pva": 1.79,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal F",
+    "n": "1202",
+    "cc": "Partido G",
+    "v": 92100,
+    "pva": 1.68,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal G",
+    "n": "4502",
+    "cc": "Partido H",
+    "v": 88200,
+    "pva": 1.6,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal H",
+    "n": "1502",
+    "cc": "Partido I",
+    "v": 81500,
+    "pva": 1.48,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal I",
+    "n": "2502",
+    "cc": "Partido J",
+    "v": 76300,
+    "pva": 1.39,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal J",
+    "n": "5002",
+    "cc": "Partido K",
+    "v": 71200,
+    "pva": 1.3,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Federal K",
+    "n": "1203",
+    "cc": "Partido G",
+    "v": 68400,
+    "pva": 1.24,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal L",
+    "n": "4503",
+    "cc": "Partido H",
+    "v": 64800,
+    "pva": 1.18,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal M",
+    "n": "1503",
+    "cc": "Partido I",
+    "v": 61100,
+    "pva": 1.11,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal N",
+    "n": "2503",
+    "cc": "Partido J",
+    "v": 58300,
+    "pva": 1.06,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Federal O",
+    "n": "5003",
+    "cc": "Partido K",
+    "v": 54200,
+    "pva": 0.99,
+    "e": ""
+   }
+  ]
+ },
+ "7": {
+  "dg": "10/09/2026",
+  "hg": "20:45:12",
+  "tf": false,
+  "a": {
+   "aptos": 7453000,
+   "comparec": 5892000,
+   "abst": 1561000
+  },
+  "v": {
+   "validos": 5386000,
+   "brancos": 198000,
+   "nulos": 308000
+  },
+  "cand": [
+   {
+    "nm": "Dep. Estadual A",
+    "n": "12121",
+    "cc": "Partido G",
+    "v": 94500,
+    "pva": 1.75,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual B",
+    "n": "45121",
+    "cc": "Partido H",
+    "v": 88200,
+    "pva": 1.64,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual C",
+    "n": "15121",
+    "cc": "Partido I",
+    "v": 84700,
+    "pva": 1.57,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual D",
+    "n": "25121",
+    "cc": "Partido J",
+    "v": 79300,
+    "pva": 1.47,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual E",
+    "n": "50121",
+    "cc": "Partido K",
+    "v": 74600,
+    "pva": 1.39,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual F",
+    "n": "12122",
+    "cc": "Partido G",
+    "v": 70100,
+    "pva": 1.3,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual G",
+    "n": "45122",
+    "cc": "Partido H",
+    "v": 66400,
+    "pva": 1.23,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual H",
+    "n": "15122",
+    "cc": "Partido I",
+    "v": 62800,
+    "pva": 1.17,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual I",
+    "n": "25122",
+    "cc": "Partido J",
+    "v": 59100,
+    "pva": 1.1,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual J",
+    "n": "50122",
+    "cc": "Partido K",
+    "v": 56200,
+    "pva": 1.04,
+    "e": "Eleito"
+   },
+   {
+    "nm": "Dep. Estadual K",
+    "n": "12123",
+    "cc": "Partido G",
+    "v": 53400,
+    "pva": 0.99,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual L",
+    "n": "45123",
+    "cc": "Partido H",
+    "v": 50800,
+    "pva": 0.94,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual M",
+    "n": "15123",
+    "cc": "Partido I",
+    "v": 47600,
+    "pva": 0.88,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual N",
+    "n": "25123",
+    "cc": "Partido J",
+    "v": 44100,
+    "pva": 0.82,
+    "e": ""
+   },
+   {
+    "nm": "Dep. Estadual O",
+    "n": "50123",
+    "cc": "Partido K",
+    "v": 41200,
+    "pva": 0.76,
+    "e": ""
+   }
+  ]
+ }
+};
+
+// tse.js — Cliente da Divulgação de Resultados do TSE (Eleições 2026)
+// Fonte: documentação oficial "Informações técnicas sobre a divulgação de resultados 2026"
+// Parâmetros oficiais confirmados: pleito 3220 (1º turno), eleições 6257 (federal) e 6259 (estadual)
+//
+// ARQUITETURA:
+// - Nunca chutar URL: ler sempre o config ele-c.json primeiro (o TSE muda o "ciclo" a cada eleição)
+// - Polling com ETag/If-Modified-Since (HTTP 304 = não reprocessa; economiza rate limit de 100 req/s)
+// - Usar EA14/EA15 (acompanhamento) para decidir quais EA20 (resultados por cargo) repolir
+// - Código de município sempre com 5 dígitos (zeros à esquerda)
+
+const TSE = (() => {
+  const AMBIENTES = {
+    oficial: "https://resultados.tse.jus.br/oficial",
+    sim:    "https://resultados-sim.tse.jus.br/oficial",
+  };
+
+  // ---- FAILOVER em 3 camadas (decidido em runtime, sem intervencao) ----
+  // 1) direto na CDN do TSE (funciona se o TSE enviar Access-Control-Allow-Origin)
+  // 2) api.allorigins.win (proxy CORS publico gratuito; prefixa o URL alvo)
+  // 3) proxy proprio (proxy_tse.py) — subir com: python3 proxy_tse.py 8765
+  //    e setar PROXY_BASE no painel; mantem ETag/If-None-Match de ponta a ponta.
+  const FALLBACKS = [
+    u => u,                                                                        // camada 1: direto
+    u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,            // camada 2: publico
+  ];
+  let PROXY_BASE = "";
+  try { PROXY_BASE = localStorage.getItem("tse_proxy_base") || ""; } catch (e) {}  // camada 3
+  if (PROXY_BASE) {
+    FALLBACKS.push(u => u.replace("https://resultados.tse.jus.br", PROXY_BASE + "/tse"));
+  }
+  let camada = 0; // indice da camada atual
+
+  // ---- estado ----
+  const cfg = {
+    ambiente: "oficial",      // trocar para "sim" nos simulados do TSE
+    ciclo: "ele2026",
+    pleito: "3220",           // 1º turno 04/10/2026
+    eleicoes: { federal: "6257", estadual: "6259" },
+    uf: "PE",
+  };
+  const etags = new Map();     // url -> etag
+
+  // ---- helper HTTP com failover ----
+  async function getJSON(url) {
+    const headers = { "User-Agent": "painel-apuracao-pe/1.0" };
+    const et = etags.get(url);
+    if (et) headers["If-None-Match"] = et;
+    const tentativas = [];
+    for (let k = camada; k < FALLBACKS.length; k++) tentativas.push(k);
+    // se a camada atual falhar por rede, tenta as seguintes; depois volta pra lista completa
+    for (const k of tentativas) {
+      try {
+        const r = await fetch(FALLBACKS[k](url), { headers, cache: "no-store" });
+        if (r.status === 304) return { unchanged: true };
+        if (r.status === 404) return { notfound: true };
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        const etag = r.headers.get("ETag");
+        if (etag) etags.set(url, etag);
+        camada = k; // fixa a camada que funcionou
+        return { data: await r.json(), changed: true };
+      } catch (e) {
+        if (e.message && e.message.startsWith("HTTP 40")) return { notfound: true };
+        // erro de rede/CORS: proxima camada
+        continue;
+      }
+    }
+    camada = 0;
+    throw new Error("todas as camadas falharam (direto, allorigins, proxy)");
+  }
+
+  // ---- config (EA11): descobre ciclo/codigos reais; fallback p/ valores documentados ----
+  async function loadConfig() {
+    // o config real fica em /comum/config/ele-c.json (dentro do ciclo, quando publicado)
+    for (const path of [
+      `${AMBIENTES[cfg.ambiente]}/comum/config/ele-c.json`,
+      `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/comum/config/ele-c.json`,
+    ]) {
+      try {
+        const { data } = await getJSON(path);
+        if (data) {
+          // o config traz: conf[].c (codigo ciclo) e lista de e<ELEICAO>/p<PLEITO>
+          const c = data.conf?.[0]?.c || cfg.ciclo;
+          cfg.ciclo = `ele${String(c).slice(-4)}` === "ele2026" ? cfg.ciclo : `ele${c}`;
+          if (data.eleicoes) Object.assign(cfg.eleicoes, data.eleicoes);
+          return true;
+        }
+      } catch (e) { /* tenta proximo caminho */ }
+    }
+    return false; // usa valores documentados (3220/6257/6259)
+  }
+
+  // ---- URLs dos arquivos EA20 (resultado unificado por cargo) ----
+  // padrao: .../dados/{abr}/  {abr}-c{CARGO}-e0{ELEICAO}-u.json   (abr = br|pe)
+  function urlUnificado(abr, cargo, eleicao) {
+    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-c${String(cargo).padStart(4, "0")}-e${eleicao}-u.json`;
+  }
+  function urlAcomp(abr, eleicao) {
+    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-e${eleicao}-ab.json`;
+  }
+  // EA20 municipal (padrao 2022 confirmado: .../dados/pe/26140/c026140-e000544-u.mun.js)
+  // prefixo do arquivo: "c" + uf(2d) + cod_mun(5d); extensao .mun.js no 2022 — manteremos
+  // o sufixo -u.json e um fallback .mun.js, decidido no loadConfig quando o simulado abrir.
+  function urlUnificadoMun(uf, cargo, codMun, eleicao) {
+    const el = eleicao || cfg.eleicoes[cargo === 1 ? "federal" : "estadual"];
+    const mun = String(codMun).padStart(5, "0");
+    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${uf}/${mun}/c${uf}${mun}-e${el}-u.mun.js`;
+  }
+
+  // ---- cargos de interesse (códigos padrão TSE) ----
+  // 1=Presidente, 3=Governador, 5=Senador, 6=Dep.Federal, 7=Dep.Estadual, 8=Dep.Distrital
+  const CARGOS = [
+    { cod: 1, nome: "Presidente",            abr: "br", ele: "federal",   cargoAPI: 1 },
+    { cod: 3, nome: "Governador PE",         abr: "pe", ele: "estadual",  cargoAPI: 3 },
+    { cod: 5, nome: "Senador PE (2 vagas)",  abr: "pe", ele: "federal",   cargoAPI: 5 },
+    { cod: 6, nome: "Deputado Federal PE",   abr: "pe", ele: "federal",   cargoAPI: 6 },
+    { cod: 7, nome: "Deputado Estadual PE",  abr: "pe", ele: "estadual",  cargoAPI: 7 },
+  ];
+
+  // ---- parse do EA20 (formato unificado por cargo) ----
+  // Campos do EA20 real (spec TSE): cand[] com nm (nome), n (numero), cc (coligacao/partido),
+  // v/va (votos), pv/pva (percentual), e/situ (situacao: "Eleito", "2º turno" etc.)
+  // Tolerante a variantes (nm|n, pva|pv, v|va) porque o layout exato so e confirmavel no simulado.
+  function parseUnificado(data) {
+    const t = data;
+    const aptos = t?.a?.aptos ?? t?.a?.a ?? null;
+    const comp = t?.a?.comparec ?? t?.a?.c ?? null;
+    const abst = t?.a?.abst ?? null;
+    const validos = t?.v?.validos ?? t?.v?.v ?? null;
+    const total = { aptos, comparecimento: comp, abst, validos,
+                    brancos: t?.v?.brancos ?? t?.v?.b ?? null, nulos: t?.v?.nulos ?? t?.v?.n ?? null };
+    const cands = (t?.cand || []).map(c => {
+      const nome = c.nm || c.n || "?";
+      const perc = c.pva ?? c.pv ?? c.p ?? null;
+      const votos = c.v ?? c.va ?? c.nva ?? null;
+      const situ = c.e || c.situ || c.cc || "";
+      const partido = c.cc && c.e ? c.cc : (c.cc || c.partido || ""); // cc pode ser coligacao
+      return {
+        nome, numero: c.n2 || c.num || null, partido,
+        votos, perc,
+        situ, eleito: /eleito/i.test(situ) && !/nao/i.test(situ),
+      };
+    });
+    return { total, cands, atualizado: `${t?.dg || ""} ${t?.hg || ""}`.trim() };
+  }
+
+  // ---- ciclo de polling ----
+  let timer = null;
+  let rodando = false;
+  const listeners = [];
+
+  async function tick() {
+    if (rodando) return;
+    rodando = true;
+    try {
+      const resultados = {};
+      for (const cargo of CARGOS) {
+        const ele = cfg.eleicoes[cargo.ele];
+        const r = await getJSON(urlUnificado(cargo.abr, cargo.cod, ele));
+        if (r.changed && r.data) {
+          resultados[cargo.cod] = parseUnificado(r.data);
+        }
+      }
+      if (Object.keys(resultados).length) {
+        listeners.forEach(fn => fn(resultados));
+      }
+    } catch (e) {
+      listeners.forEach(fn => fn(null, e));
+    } finally {
+      rodando = false;
+    }
+  }
+
+  return {
+    CARGOS, cfg,
+    loadConfig,
+    urlUnificado, urlAcomp, urlUnificadoMun, parseUnificado, getJSON,
+    iniciar(intervaloMs = 10000, onChange) {
+      if (timer) clearInterval(timer);
+      if (onChange) listeners.push(onChange);
+      tick();
+      timer = setInterval(tick, intervaloMs);
+    },
+    parar() { if (timer) clearInterval(timer); timer = null; },
+  };
+})();
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const fmt=v=>v==null?"—":v.toLocaleString("pt-BR");
+const fmtPct=v=>v==null?"—":(v.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1}))+"%";
+const PALETA=["#f5b942","#e05252","#4f8ef7","#2ea86e","#9b59d0","#e0762e","#5bc8d9"];
+// RDs ordenadas
+const RDS=Object.keys(RD_PE.rds).sort((a,b)=>a.localeCompare(b,"pt"));
+
+// ---------- fixture por RD (demonstração) ----------
+function fixtureRD(){
+  // deriva da FIXTURE principal distribuindo votos por RD conforme pesos plausíveis
+  const pesos={ "Região Metropolitana do Recife":0.46,"Mata Sul":0.10,"Mata Norte":0.06,
+    "Agreste Central":0.11,"Agreste Meridional":0.09,"Agreste Setentrional":0.06,
+    "Sertão do São Francisco":0.05,"Sertão do Pajeú":0.04,"Sertão Central":0.03,
+    "Sertão de Itaparica":0.02,"Sertão do Moxotó":0.02,"Sertão do Araripe":0.02 };
+  const out={};
+  for(const cod of ["1","3","5","6","7"]){
+    const base=FIXTURE[cod];
+    out[cod]={dg:base.dg,hg:base.hg,rds:{}};
+    for(const rd of RDS){
+      const w=pesos[rd]||0.02;
+      // variação regional plausível: desloca alguns pontos entre candidatos por RD
+      const cands=base.cand.map((c,i)=>{
+        const shift=(Math.sin(String(cod).charCodeAt(0)+rd.length*3+i)*6-3)/100; // ±3pp
+        const v=Math.round(c.v*w*(1+shift));
+        return {...c,v};
+      });
+      out[cod].rds[rd]={cands,validos:cands.reduce((a,c)=>a+c.v,0)};
+    }
+  }
+  return out;
+}
+
+// ---------- render ----------
+const NOME={1:"Presidente (BR) — voto em PE por RD",3:"Governador — PE por RD",5:"Senador — PE por RD",6:"Deputado Federal — PE por RD",7:"Deputado Estadual — PE por RD"};
+
+function renderRD(cod, dadosRD){
+  $("hDom").textContent=NOME[cod]; $("hDom2").textContent=NOME[cod];
+  // barras: lider em cada RD
+  const box=$("rdBars"); box.innerHTML="";
+  let maxV=0;
+  const lides=RDS.map(rd=>{
+    const r=dadosRD[cod].rds[rd];
+    const top=[...r.cands].sort((a,b)=>b.v-a.v)[0];
+    maxV=Math.max(maxV,r.validos);
+    return {rd,top,validos:r.validos};
+  });
+  lides.sort((a,b)=>b.validos-a.validos);
+  for(const l of lides){
+    const total=lides.reduce((a,x)=>a+x.validos,0);
+    const div=document.createElement("div"); div.className="rdbar";
+    const cor=PALETA[l.top.nm.charCodeAt(0)%7];
+    div.innerHTML=`<div class="head"><b>${l.rd}</b><small>${l.top.nm} · ${fmtPct(l.top.v/l.validos*100)} — ${fmt(l.validos)} válidos na RD</small></div>
+    <div class="track"><i style="width:${(l.top.v/l.validos*100).toFixed(1)}%;background:${cor}"></i></div>
+    <div class="sub">peso da RD no estado: ${fmtPct(l.validos/total*100)} dos válidos listados</div>`;
+    box.appendChild(div);
+  }
+  // tabela: candidato x RD
+  const cands=dadosRD[cod].rds[RDS[0]].cands; // mesmos candidatos
+  $("t_rd_head").innerHTML=`<th>Candidato</th>`+RDS.map(r=>`<th class="n">${r.replace("Região Metropolitana do Recife","RMR").replace("Sertão do","S.").replace("Agreste","Ag.").replace("Mata","M.")}</th>`).join("");
+  $("t_rd").querySelector("tbody").innerHTML=cands.map((c,i)=>{
+    const cells=RDS.map(rd=>{
+      const r=dadosRD[cod].rds[rd];
+      const cc=r.cands[i];
+      const pct=cc.v/r.validos*100;
+      const best=[...r.cands].sort((a,b)=>b.v-a.v)[0]===cc;
+      return `<td class="n"${best?' style="color:var(--acc);font-weight:700"':''}>${pct.toFixed(1)}</td>`;
+    }).join("");
+    return `<tr><td style="color:${PALETA[i%7]};font-weight:600">${c.nm||c.nome} <small style="color:var(--mut)">(${c.cc||c.partido||""})</small></td>${cells}</tr>`;
+  }).join("");
+}
+
+// ---------- fonte real (dia 04/10) ----------
+// para cada municipio (185), baixa EA20 municipal e agrega por RD
+async function fetchRDReal(cod, onChange){
+  // usa o mapa RD_PE.mapa (nome normalizado -> RD) com os codigos TSE dos municipios
+  // codigos TSE = codigo IBGE (mesma chave). Baixa via TSE.getJSON municipal.
+  const MUNS=MUNS_PE; // embutido no build
+  const agg={}; RDS.forEach(r=>agg[r]={votos:{},validos:0});
+  let feitas=0;
+  for(const m of MUNS){
+    const rd=RD_PE.mapa[m.nome.toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")];
+    if(!rd) continue;
+    const url=TSE.urlUnificadoMun("pe", cod, m.codigo);
+    TSE.getJSON(url).then(r=>{
+      if(r.changed&&r.data){
+        const p=TSE.parseUnificado(r.data);
+        agg[rd].validos+=p.total.validos||0;
+        p.cands.forEach(c=>{
+          agg[rd].votos[c.nome]=(agg[rd].votos[c.nome]||0)+(c.votos||0);
+        });
+      }
+    }).catch(()=>{}).finally(()=>{
+      feitas++;
+      if(feitas===MUNS.length){
+        // monta dadosRD compativel
+        const dadosRD={}; dadosRD[cod]={rds:{}};
+        RDS.forEach(r=>{
+          const vot=agg[r].votos;
+          const sorted=Object.entries(vot).map(([nm,v],i)=>({nm,v,pv:v/(agg[r].validos||1)*100}));
+          dadosRD[cod].rds[r]={cands:sorted,validos:agg[r].validos};
+        });
+        onChange(dadosRD);
+      }
+    });
+  }
+}
+
+// ---------- nav e ciclo ----------
+let cargoAtual=3;
+function buildNav(){
+  const nav=$("navCargo"); nav.innerHTML="";
+  [[3,"🏛 Governador"],[1,"🇧🇷 Presidente (voto em PE)"],[5,"🏛 Senador"],[6,"📋 Dep. Federal"],[7,"📋 Dep. Estadual"]].forEach(([c,l])=>{
+    const b=document.createElement("button"); b.textContent=l; b.dataset.c=c;
+    b.onclick=()=>{cargoAtual=c; document.querySelectorAll("nav button").forEach(x=>x.classList.remove("on")); b.classList.add("on"); tick();};
+    if(c===cargoAtual)b.classList.add("on");
+    nav.appendChild(b);
+  });
+}
+
+let FIXRD=null;
+function tick(){
+  if(!FIXRD) FIXRD=fixtureRD();
+  // demo: render direto
+  renderRD(cargoAtual, FIXRD);
+  $("liveTxt").textContent="DEMONSTRAÇÃO";
+  $("clock").textContent=new Date().toLocaleTimeString("pt-BR");
+}
+buildNav();
+tick();
+setInterval(tick,10000);
+</script>
+</body>
+</html>
