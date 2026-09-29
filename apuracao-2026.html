@@ -593,11 +593,17 @@ const TSE = (() => {
   let camada = 0; // indice da camada atual
 
   // ---- estado ----
+  // Codigos REAIS confirmados no ele-c.json do ambiente simulado 2026 (lido em 29/09/2026):
+  //   ciclo "ele2026", pleito municipal 17801 (26/04/2026)
+  //   eleicao FEDERAL  1o turno 21270 / 2o turno 21271  (Presidente)
+  //   eleicao ESTADUAL 1o turno 21272 / 2o turno 21273  (Gov/Sen/DepFed/DepEst)
+  //   cargos: 1=Presidente, 3=Governador, 5=Senador, 6=Dep.Federal, 7=Dep.Estadual (cd no config)
+  // Estrutura: <base>/<ambiente>/<ciclo>/<cd_eleicao>/dados/<uf>/<arquivo>
   const cfg = {
-    ambiente: "oficial",      // trocar para "sim" nos simulados do TSE
+    ambiente: "oficial",
     ciclo: "ele2026",
-    pleito: "3220",           // 1º turno 04/10/2026
-    eleicoes: { federal: "6257", estadual: "6259" },
+    eleicoes: { federal: "21270", estadual: "21272" },
+    turnos: { federal: { t1: "21270", t2: "21271" }, estadual: { t1: "21272", t2: "21273" } },
     uf: "PE",
   };
   const etags = new Map();     // url -> etag
@@ -630,42 +636,46 @@ const TSE = (() => {
     throw new Error("todas as camadas falharam (direto, allorigins, proxy)");
   }
 
-  // ---- config (EA11): descobre ciclo/codigos reais; fallback p/ valores documentados ----
+  // ---- config (EA11): descobre ciclo/eleicoes reais do ambiente; fallback p/ valores lidos ----
   async function loadConfig() {
-    // o config real fica em /comum/config/ele-c.json (dentro do ciclo, quando publicado)
-    for (const path of [
-      `${AMBIENTES[cfg.ambiente]}/comum/config/ele-c.json`,
-      `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/comum/config/ele-c.json`,
-    ]) {
-      try {
-        const { data } = await getJSON(path);
-        if (data) {
-          // o config traz: conf[].c (codigo ciclo) e lista de e<ELEICAO>/p<PLEITO>
-          const c = data.conf?.[0]?.c || cfg.ciclo;
-          cfg.ciclo = `ele${String(c).slice(-4)}` === "ele2026" ? cfg.ciclo : `ele${c}`;
-          if (data.eleicoes) Object.assign(cfg.eleicoes, data.eleicoes);
-          return true;
+    // config em: <base>/<ambiente>/comum/config/ele-c.json (formato confirmado no simulado 2026)
+    // AMBIENTES[ambiente] ja inclui <base>/<ambiente>... nao: base tem que ser separada.
+    const base = cfg.ambiente === "sim" ? "https://resultados-sim.tse.jus.br/simulado/simulado2026" : "https://resultados.tse.jus.br/oficial";
+    const path = `${base}/comum/config/ele-c.json`;
+    try {
+      const { data } = await getJSON(path);
+      if (data && data.pl) {
+        for (const pl of data.pl) {
+          if (pl.c) cfg.ciclo = pl.c;
+          for (const el of (pl.e || [])) {
+            const nm = String(el.nm || "");
+            if (/Federal/i.test(nm) && el.t === "1") cfg.eleicoes.federal = el.cd;
+            if (/Estadual/i.test(nm) && el.t === "1") cfg.eleicoes.estadual = el.cd;
+          }
         }
-      } catch (e) { /* tenta proximo caminho */ }
-    }
-    return false; // usa valores documentados (3220/6257/6259)
+        return true;
+      }
+    } catch (e) { /* usa valores lidos do simulado */ }
+    return false;
   }
 
-  // ---- URLs dos arquivos EA20 (resultado unificado por cargo) ----
-  // padrao: .../dados/{abr}/  {abr}-c{CARGO}-e0{ELEICAO}-u.json   (abr = br|pe)
+  // ---- URLs dos arquivos EA20 (formato 2026: <base>/<ciclo>/<eleicao>/dados/<abr>/<abr>-c<cargo>-e<ele>-u.json) ----
+  function baseDados() {
+    return cfg.ambiente === "sim" ? "https://resultados-sim.tse.jus.br/simulado/simulado2026" : "https://resultados.tse.jus.br/oficial";
+  }
   function urlUnificado(abr, cargo, eleicao) {
-    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-c${String(cargo).padStart(4, "0")}-e${eleicao}-u.json`;
+    const ele = eleicao || cfg.eleicoes[cargo === 1 ? "federal" : "estadual"];
+    return `${baseDados()}/${cfg.ciclo}/${ele}/dados/${abr}/${abr}-c${String(cargo).padStart(4, "0")}-e${ele}-u.json`;
   }
   function urlAcomp(abr, eleicao) {
-    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${abr}/${abr}-e${eleicao}-ab.json`;
+    const ele = eleicao || cfg.eleicoes.federal;
+    return `${baseDados()}/${cfg.ciclo}/${ele}/dados/${abr}/${abr}-e${ele}-ab.json`;
   }
-  // EA20 municipal (padrao 2022 confirmado: .../dados/pe/26140/c026140-e000544-u.mun.js)
-  // prefixo do arquivo: "c" + uf(2d) + cod_mun(5d); extensao .mun.js no 2022 — manteremos
-  // o sufixo -u.json e um fallback .mun.js, decidido no loadConfig quando o simulado abrir.
+  // EA20 municipal 2026: <base>/<ciclo>/<eleicao>/dados/<uf>/<mun5>/<uf><mun5>-e<ele>-u.json
   function urlUnificadoMun(uf, cargo, codMun, eleicao) {
     const el = eleicao || cfg.eleicoes[cargo === 1 ? "federal" : "estadual"];
     const mun = String(codMun).padStart(5, "0");
-    return `${AMBIENTES[cfg.ambiente]}/${cfg.ciclo}/${cfg.pleito}/dados/${uf}/${mun}/c${uf}${mun}-e${el}-u.mun.js`;
+    return `${baseDados()}/${cfg.ciclo}/${el}/dados/${uf}/${mun}/${uf}${mun}-e${el}-u.json`;
   }
 
   // ---- cargos de interesse (códigos padrão TSE) ----
